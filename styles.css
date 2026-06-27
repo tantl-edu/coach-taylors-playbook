@@ -632,7 +632,7 @@ body[data-coach-mode="edit"] .editToolbar{display:flex!important}
   }
   .modeTabs{
     display:grid;
-    grid-template-columns:repeat(5,minmax(0,1fr));
+    grid-template-columns:repeat(4,minmax(0,1fr));
     width:100%;
   }
   .modeTabs button{
@@ -968,23 +968,37 @@ body.rightPanelCollapsed .movementPanel{
 
   .courtStage{
     align-items:start!important;
+    display:flex!important;
+    flex-direction:column;
+    justify-content:flex-start!important;
+    gap:10px;
     height:auto!important;
     min-height:0!important;
     padding-bottom:calc(160px + env(safe-area-inset-bottom));
+    overflow:visible!important;
+  }
+
+  body[data-coach-mode="library"] .courtStage,
+  body[data-coach-mode="share"] .courtStage{
+    padding-bottom:calc(24px + env(safe-area-inset-bottom));
   }
 
   .floatingPanel{
     left:10px!important;
     right:10px!important;
-    top:10px!important;
-    width:auto!important;
-    max-height:calc(100dvh - 170px);
+    top:auto!important;
+    bottom:auto!important;
+    width:calc(100% - 20px)!important;
+    max-height:none!important;
+    margin:0 auto;
+    position:relative!important;
+    transform:none!important;
   }
 
   .movementPanel{
-    bottom:calc(172px + env(safe-area-inset-bottom))!important;
+    bottom:auto!important;
     top:auto!important;
-    max-height:22vh!important;
+    max-height:none!important;
   }
 
   body:not(.topControlsCollapsed) .appShell{
@@ -1006,19 +1020,16 @@ body.rightPanelCollapsed .movementPanel{
     transform:none;
   }
 
-  body.leftPanelCollapsed .leftPanelTab,
-  body.rightPanelCollapsed .rightPanelTab,
   body.bottomToolsCollapsed .bottomToolsTab{
     display:block!important;
   }
 
-  body[data-coach-mode="draw"] .leftPanelTab,
-  body[data-coach-mode="draw"] .rightPanelTab{
+  .sidePanelTab{
     display:none!important;
   }
 
   .floatingPanel{
-    max-height:34vh!important;
+    max-height:none!important;
   }
 
   .playPanel,
@@ -1028,17 +1039,17 @@ body.rightPanelCollapsed .movementPanel{
   .editPanel,
   .builderStepsPanel,
   .playerLibraryPanel{
-    top:10px!important;
+    top:auto!important;
   }
 
   body[data-coach-mode="edit"] .editPanel{
-    top:10px!important;
-    max-height:20vh!important;
+    top:auto!important;
+    max-height:none!important;
   }
 
   body[data-coach-mode="edit"] .movementPanel{
-    bottom:calc(188px + env(safe-area-inset-bottom))!important;
-    max-height:20vh!important;
+    bottom:auto!important;
+    max-height:none!important;
   }
 
   .viewToolbar,

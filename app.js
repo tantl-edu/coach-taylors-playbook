@@ -974,9 +974,12 @@ function setupInkHandlers(){
   };
 }
 
-document.getElementById("viewerMode").onclick=()=>{
-  setCoachMode(hasSelectedPlayForView || playerView ? "view" : "library");
-};
+const viewerMode=document.getElementById("viewerMode");
+if(viewerMode){
+  viewerMode.onclick=()=>{
+    setCoachMode(hasSelectedPlayForView || playerView ? "view" : "library");
+  };
+}
 document.getElementById("builderMode").onclick=()=>setCoachMode("edit");
 function toggleMode(mode){
   setCoachMode(mode === "builder" ? "edit" : "view");
