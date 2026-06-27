@@ -31,7 +31,7 @@
     </div>
 
     <nav class="modeTabs coachModeTabs" aria-label="Coach modes">
-      <button type="button" id="builderMode" data-mode="edit">New</button>
+      <button type="button" id="builderMode" data-mode="edit">Create New Play</button>
       <button type="button" id="drawModeTab" class="active" data-mode="draw">Draw</button>
       <button type="button" id="libraryModeTab" data-mode="library">Library</button>
       <button type="button" id="shareModeTab" data-mode="share">Share</button>
@@ -39,7 +39,6 @@
 
     <div class="headerActions">
       <button type="button" id="saveBuilderPlayTop">Save</button>
-      <button type="button" id="sharePlay">Share</button>
     </div>
   </header>
   <button type="button" id="topControlsTab" class="collapseTab topControlsTab">Controls</button>
@@ -92,6 +91,7 @@
           <button type="button" id="favoritePlay">Favorite</button>
           <button type="button" id="recentPlays">Recent Plays</button>
         </div>
+        <button type="button" id="libraryVideoButton" class="videoButton">See on the court!</button>
         <div id="libraryList" class="compactList"></div>
       </aside>
 
@@ -261,8 +261,21 @@
   <button type="button" id="bottomToolsTab" class="collapseTab bottomToolsTab">Tools</button>
 </div>
 
+<div id="videoOverlay" class="videoOverlay hidden" role="dialog" aria-modal="true" aria-labelledby="videoTitle">
+  <div class="videoDialog">
+    <div class="videoHeader">
+      <h2 id="videoTitle">See on the court</h2>
+      <button type="button" id="closeVideo">Close</button>
+    </div>
+    <div class="videoFrameWrap">
+      <iframe id="videoFrame" title="YouTube play demonstration" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+    <a id="videoFallback" class="videoFallback" href="#" target="_blank" rel="noopener">Open on YouTube</a>
+  </div>
+</div>
+
 <!-- Temporary build marker. Remove this element and .buildWatermark before public release. -->
-<div class="buildWatermark" aria-label="Build version">Build PWA v14 · 2026-06-27</div>
+<div class="buildWatermark" aria-label="Build version">Build PWA v15 · 2026-06-27</div>
 
 <script type="module" src="app.js"></script>
 <script type="module" src="pwa.js"></script>
