@@ -18,23 +18,6 @@ let activeShareUrl = null;
 
 const court = document.getElementById("court");
 const playSelect = document.getElementById("playSelect");
-const PLAY_VIDEO_QUERIES = {
-  "5-Out Motion: Pass and Cut":"5 out motion pass and cut basketball offense youth",
-  "Give and Go":"give and go basketball play youth demonstration",
-  "Pick and Roll":"pick and roll basketball basics youth demonstration",
-  "Horns Entry":"horns offense basketball entry play demonstration",
-  "UCLA Cut":"UCLA cut basketball play demonstration",
-  "Flex Screen":"flex screen basketball offense demonstration",
-  "Backdoor Cut":"backdoor cut basketball play demonstration",
-  "Dribble Handoff":"dribble handoff basketball offense demonstration",
-  "Box BLOB":"box baseline out of bounds basketball play demonstration",
-  "Stack BLOB":"stack baseline out of bounds basketball play demonstration",
-  "Sideline Stack SLOB":"sideline stack out of bounds basketball play demonstration",
-  "Secondary Break":"secondary break basketball offense demonstration",
-  "1-2-1-1 Press Break":"1-2-1-1 press break basketball demonstration",
-  "Shell Drill":"shell drill basketball defense demonstration",
-  "2-3 Zone Slides":"2-3 zone defense slides basketball demonstration"
-};
 
 function clone(value){return JSON.parse(JSON.stringify(value));}
 function loadSaved(){try{return JSON.parse(localStorage.getItem("coachFullCourtPlays")||"[]").map(normalizePlay);}catch(e){return [];}}
@@ -717,54 +700,6 @@ function render(){
   }
   setupInkHandlers();
   populateStepList();
-  updateVideoButtons();
-}
-
-function getPlayVideoQuery(play){
-  if(!play || play.category==="Blank") return "";
-  return PLAY_VIDEO_QUERIES[play.name] || [
-    play.name,
-    play.category,
-    "basketball play demonstration youth"
-  ].filter(Boolean).join(" ");
-}
-
-function getYouTubeSearchUrl(query){
-  return `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
-}
-
-function getYouTubeEmbedUrl(query){
-  return `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(query)}`;
-}
-
-function updateVideoButtons(){
-  const play=plays[currentPlay];
-  const hasVideo=Boolean(getPlayVideoQuery(play));
-  document.querySelectorAll("#libraryVideoButton").forEach(btn=>{
-    btn.classList.toggle("hidden",!hasVideo);
-  });
-}
-
-function openPlayVideo(index=currentPlay){
-  const play=plays[index];
-  const query=getPlayVideoQuery(play);
-  if(!query) return;
-  const overlay=document.getElementById("videoOverlay");
-  const frame=document.getElementById("videoFrame");
-  const title=document.getElementById("videoTitle");
-  const fallback=document.getElementById("videoFallback");
-  if(!overlay || !frame || !title || !fallback) return;
-  title.textContent=`${play.name} · See on the court`;
-  frame.src=getYouTubeEmbedUrl(query);
-  fallback.href=getYouTubeSearchUrl(query);
-  overlay.classList.remove("hidden");
-}
-
-function closePlayVideo(){
-  const overlay=document.getElementById("videoOverlay");
-  const frame=document.getElementById("videoFrame");
-  if(frame) frame.src="";
-  if(overlay) overlay.classList.add("hidden");
 }
 
 function populateStepList(){
@@ -1874,6 +1809,7 @@ function setupCollapsibleControls(){
     container.classList.add("hasHideButton");
   }
 
+  addEmbeddedHideButton(headerActions || header,"Hide Controls",()=>setTopControlsCollapsed(true));
   toolbars.forEach(toolbar=>addEmbeddedHideButton(toolbar,"Hide Tools",()=>setBottomToolsCollapsed(true)));
   leftPanels.forEach(panel=>addEmbeddedHideButton(panel,"Hide",()=>setLeftPanelCollapsed(true)));
   rightPanels.forEach(panel=>addEmbeddedHideButton(panel,"Hide",()=>setRightPanelCollapsed(true)));
@@ -2079,33 +2015,13 @@ function populateLibraryList(mode="visible"){
     indexes=[...playSelect.options].map(opt=>Number(opt.value));
   }
   indexes.filter(i=>plays[i]).slice(0,8).forEach(i=>{
-    const row=document.createElement("div");
-    row.className="libraryPlayRow";
     const btn=document.createElement("button");
     btn.type="button";
-    btn.className="libraryOpenPlay";
     btn.textContent=`${plays[i].name}${plays[i].category ? " · " + plays[i].category : ""}`;
     btn.addEventListener("click",()=>{
       openPlayInView(i,{remember:true});
     });
-    row.appendChild(btn);
-    if(getPlayVideoQuery(plays[i])){
-      const videoBtn=document.createElement("button");
-      videoBtn.type="button";
-      videoBtn.className="videoButton";
-      videoBtn.dataset.videoButton="true";
-      videoBtn.textContent="See on the court!";
-      videoBtn.addEventListener("click",event=>{
-        event.preventDefault();
-        event.stopPropagation();
-        currentPlay=i;
-        currentStep=0;
-        if(playSelect) playSelect.value=i;
-        openPlayVideo(i);
-      });
-      row.appendChild(videoBtn);
-    }
-    list.appendChild(row);
+    list.appendChild(btn);
   });
   if(!list.children.length){
     const empty=document.createElement("div");
@@ -2131,23 +2047,6 @@ if(favoritePlay){
 const recentPlays=document.getElementById("recentPlays");
 if(recentPlays){
   recentPlays.addEventListener("click",()=>populateLibraryList("recent"));
-}
-
-const libraryVideoButton=document.getElementById("libraryVideoButton");
-if(libraryVideoButton){
-  libraryVideoButton.addEventListener("click",()=>openPlayVideo(currentPlay));
-}
-
-const closeVideo=document.getElementById("closeVideo");
-if(closeVideo){
-  closeVideo.addEventListener("click",()=>closePlayVideo());
-}
-
-const videoOverlay=document.getElementById("videoOverlay");
-if(videoOverlay){
-  videoOverlay.addEventListener("click",event=>{
-    if(event.target===videoOverlay) closePlayVideo();
-  });
 }
 
 const shareLink=document.getElementById("shareLink");
