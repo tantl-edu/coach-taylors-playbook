@@ -967,7 +967,10 @@ body.rightPanelCollapsed .movementPanel{
   }
 
   .courtStage{
-    min-height:480px!important;
+    align-items:start!important;
+    height:auto!important;
+    min-height:0!important;
+    padding-bottom:calc(160px + env(safe-area-inset-bottom));
   }
 
   .floatingPanel{
@@ -1007,6 +1010,11 @@ body.rightPanelCollapsed .movementPanel{
   body.rightPanelCollapsed .rightPanelTab,
   body.bottomToolsCollapsed .bottomToolsTab{
     display:block!important;
+  }
+
+  body[data-coach-mode="draw"] .leftPanelTab,
+  body[data-coach-mode="draw"] .rightPanelTab{
+    display:none!important;
   }
 
   .floatingPanel{
