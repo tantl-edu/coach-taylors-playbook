@@ -362,7 +362,7 @@ body[data-coach-mode="edit"] .editToolbar{display:flex!important}
 .compactList{display:grid;gap:8px}
 .libraryPlayRow{
   display:grid;
-  grid-template-columns:1fr auto;
+  grid-template-columns:1fr;
   gap:8px;
   align-items:stretch;
 }
@@ -372,16 +372,10 @@ body[data-coach-mode="edit"] .editToolbar{display:flex!important}
   background:rgba(255,255,255,.10);
   box-shadow:none;
 }
-.libraryPlayRow .videoButton,
 .videoButton{
   min-height:44px;
   text-align:center;
   background:linear-gradient(180deg,var(--latin-orange),#ef6f00);
-}
-.libraryPlayRow .videoButton{
-  min-width:138px;
-  padding:8px 10px;
-  font-size:13px;
 }
 .libraryOpenPlay{
   min-width:0;
@@ -963,12 +957,8 @@ body.rightPanelCollapsed .movementPanel{
     font-size:14px;
   }
 
-  .libraryPlayRow{
-    grid-template-columns:1fr;
-  }
-
-  .libraryPlayRow .videoButton{
-    width:100%;
+  #courtVideoButton{
+    grid-column:2 / -1;
   }
 
   .videoOverlay{
