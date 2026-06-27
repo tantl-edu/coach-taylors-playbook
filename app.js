@@ -1876,7 +1876,7 @@ function setupDesktopRubberBand(){
   }
 
   function isControlSurface(target){
-    return Boolean(target && target.closest("button,input,select,textarea,a,.floatingPanel,.floatingToolbar"));
+    return Boolean(target && target.closest("button,input,select,textarea,a,.floatingPanel,.floatingToolbar,.collapseTab"));
   }
 
   function shouldDrag(target){
