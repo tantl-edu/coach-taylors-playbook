@@ -3,6 +3,7 @@ import { BALL_MOVEMENT_TYPES, PLAYER_MOVEMENT_TYPES, PLAY_SCHEMA_VERSION, SCREEN
 let plays = [];
 let currentPlay = 0;
 let currentStep = 0;
+let hasSelectedPlayForView = false;
 let currentSide = "left";
 let animating = false;
 let paused = false;
@@ -843,7 +844,17 @@ document.getElementById("reset").onclick=()=>{paused=false;document.getElementBy
 document.getElementById("animateStep").onclick=()=>animateToNext();
 document.getElementById("animateAll").onclick=animateAllSteps;
 document.getElementById("pause").onclick=()=>{paused=!paused;document.getElementById("pause").textContent=paused?"Resume":"Pause";};
-playSelect.onchange=e=>{currentPlay=Number(e.target.value);currentStep=0;inkPaths=[];render();};
+function openPlayInView(index,{remember=false}={}){
+  currentPlay=Number(index);
+  currentStep=0;
+  inkPaths=[];
+  hasSelectedPlayForView=true;
+  if(playSelect) playSelect.value=currentPlay;
+  if(remember) rememberRecentPlay(currentPlay);
+  setCoachMode("view");
+}
+
+playSelect.onchange=e=>openPlayInView(e.target.value,{remember:true});
 document.getElementById("sideSelect").onchange=e=>{currentSide=e.target.value;inkPaths=[];render();};
 const playFilter=document.getElementById("playFilter");
 if(playFilter){
@@ -963,7 +974,9 @@ function setupInkHandlers(){
   };
 }
 
-document.getElementById("viewerMode").onclick=()=>setCoachMode("view");
+document.getElementById("viewerMode").onclick=()=>{
+  setCoachMode(hasSelectedPlayForView || playerView ? "view" : "library");
+};
 document.getElementById("builderMode").onclick=()=>setCoachMode("edit");
 function toggleMode(mode){
   setCoachMode(mode === "builder" ? "edit" : "view");
@@ -1028,6 +1041,7 @@ function populatePlayerPlaylist(){
     btn.type="button";
     btn.textContent=`${play.name}${play.category ? " · " + play.category : ""}`;
     btn.addEventListener("click",()=>{
+      hasSelectedPlayForView=true;
       currentPlay=index;
       currentStep=0;
       playSelect.value=index;
@@ -1446,10 +1460,11 @@ document.getElementById("saveBuilderPlay").onclick=()=>{
   populateSelect();
   currentPlay=samplePlays.length+editingSavedIndex;
   currentStep=0;
+  hasSelectedPlayForView=true;
   playSelect.value=currentPlay;
   populateStepList();
   updateEditingStatus();
-  toggleMode("viewer");
+  setCoachMode("view");
   render();
 };
 
@@ -1465,9 +1480,10 @@ if(saveAsNewBtn){
     populateSelect();
     currentPlay=samplePlays.length+editingSavedIndex;
     currentStep=0;
+    hasSelectedPlayForView=true;
     playSelect.value=currentPlay;
     updateEditingStatus();
-    toggleMode("viewer");
+    setCoachMode("view");
     render();
   };
 }
@@ -1540,14 +1556,20 @@ if(deleteSavedBtn){
     resetBuilderToNew();
     currentPlay=0;
     currentStep=0;
-    render();
+    hasSelectedPlayForView=false;
+    setCoachMode("draw");
   };
 }
 
 document.getElementById("clearSaved").onclick=()=>{
   if(confirm("Clear all saved custom plays on this device?")){
     localStorage.removeItem("coachFullCourtPlays");
-    plays=[...samplePlays];populateSelect();currentPlay=0;currentStep=0;render();
+    plays=[...samplePlays];
+    populateSelect();
+    currentPlay=0;
+    currentStep=0;
+    hasSelectedPlayForView=false;
+    setCoachMode("draw");
   }
 };
 
@@ -1560,7 +1582,8 @@ if(blankBtn){
       currentStep = 0;
       playSelect.value = idx;
       inkPaths = [];
-      render();
+      hasSelectedPlayForView=false;
+      setCoachMode("draw");
     }
   });
 }
@@ -1660,7 +1683,11 @@ if(shareModeShortcut) shareModeShortcut.addEventListener("click",()=>setCoachMod
 });
 
 const doneDrawing=document.getElementById("doneDrawing");
-if(doneDrawing) doneDrawing.addEventListener("click",()=>setCoachMode("view"));
+if(doneDrawing){
+  doneDrawing.addEventListener("click",()=>{
+    setCoachMode(hasSelectedPlayForView ? "view" : "library");
+  });
+}
 
 const eraserInk=document.getElementById("eraserInk");
 if(eraserInk) eraserInk.addEventListener("click",()=>{
@@ -1818,7 +1845,7 @@ function isCompactTouchLayout(){
 function applyMobileModeChrome(mode=document.body.dataset.coachMode || "view"){
   if(playerView || !isCompactTouchLayout()) return;
 
-  setTopControlsCollapsed(true);
+  setTopControlsCollapsed(false);
   setBottomToolsCollapsed(false);
   setLeftPanelCollapsed(true);
 
@@ -1988,11 +2015,7 @@ function populateLibraryList(mode="visible"){
     btn.type="button";
     btn.textContent=`${plays[i].name}${plays[i].category ? " · " + plays[i].category : ""}`;
     btn.addEventListener("click",()=>{
-      currentPlay=i;
-      currentStep=0;
-      playSelect.value=i;
-      rememberRecentPlay(i);
-      setCoachMode("view");
+      openPlayInView(i,{remember:true});
     });
     list.appendChild(btn);
   });
@@ -2021,8 +2044,6 @@ const recentPlays=document.getElementById("recentPlays");
 if(recentPlays){
   recentPlays.addEventListener("click",()=>populateLibraryList("recent"));
 }
-
-playSelect.addEventListener("change",()=>rememberRecentPlay(currentPlay));
 
 const shareLink=document.getElementById("shareLink");
 if(shareLink){
@@ -2217,7 +2238,14 @@ setupPublicAppUrlControls();
 setupCollapsibleControls();
 setupDesktopRubberBand();
 populateSelect();
-applyPlayerViewMode();
-setupMobileDefaultChrome();
-populateLibraryList();
-render();
+if(playerView){
+  hasSelectedPlayForView=true;
+  applyPlayerViewMode();
+  setupMobileDefaultChrome();
+  populateLibraryList();
+  render();
+} else {
+  setCoachMode("draw");
+  setupMobileDefaultChrome();
+  populateLibraryList();
+}

@@ -14,10 +14,10 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body data-coach-mode="view">
+<body data-coach-mode="draw">
 <script>
   if (window.matchMedia && window.matchMedia("(pointer: coarse) and (max-width: 1120px)").matches) {
-    document.body.classList.add("topControlsCollapsed","leftPanelCollapsed","rightPanelCollapsed","bottomToolsCollapsed","mobileCompactBoot");
+    document.body.classList.add("leftPanelCollapsed","rightPanelCollapsed","bottomToolsCollapsed","mobileCompactBoot");
   }
 </script>
 <div class="app appShell">
@@ -31,9 +31,9 @@
     </div>
 
     <nav class="modeTabs coachModeTabs" aria-label="Coach modes">
-      <button type="button" id="viewerMode" class="active" data-mode="view">View</button>
+      <button type="button" id="viewerMode" data-mode="view">View</button>
       <button type="button" id="builderMode" data-mode="edit">Edit</button>
-      <button type="button" id="drawModeTab" data-mode="draw">Draw</button>
+      <button type="button" id="drawModeTab" class="active" data-mode="draw">Draw</button>
       <button type="button" id="libraryModeTab" data-mode="library">Library</button>
       <button type="button" id="shareModeTab" data-mode="share">Share</button>
     </nav>

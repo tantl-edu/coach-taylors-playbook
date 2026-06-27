@@ -419,10 +419,10 @@ body.rightPanelCollapsed .rightPanelTab{
   min-height:46px;
 }
 
-.drawToolbar,.editToolbar{display:none}
-body[data-coach-mode="draw"] .viewToolbar{display:none}
-body[data-coach-mode="draw"] .drawToolbar{display:flex}
-body[data-coach-mode="edit"] .editToolbar{display:flex}
+.viewToolbar,.drawToolbar,.editToolbar{display:none!important}
+body[data-coach-mode="view"] .viewToolbar{display:flex!important}
+body[data-coach-mode="draw"] .drawToolbar{display:flex!important}
+body[data-coach-mode="edit"] .editToolbar{display:flex!important}
 
 .speedControl,.penChooser{
   display:flex;
