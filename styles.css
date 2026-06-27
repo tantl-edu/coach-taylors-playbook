@@ -168,7 +168,7 @@ body.rubberRecovering .screen{
 
 .courtWrap{
   width:min(100%,1500px);
-  background:#061c31;
+  background:#061c31 url("court-background.png") center/100% 100% no-repeat;
   border:1px solid rgba(255,255,255,.18);
   border-radius:18px;
   box-shadow:0 22px 52px rgba(0,0,0,.42);
@@ -182,11 +182,12 @@ svg{
   display:block;
   user-select:none;
   -webkit-user-select:none;
-  background:#061c31;
+  background:transparent;
 }
 
 #court,#builderCourt{
   border-radius:18px;
+  background:#061c31 url("court-background.png") center/100% 100% no-repeat;
 }
 
 .floatingPanel{
