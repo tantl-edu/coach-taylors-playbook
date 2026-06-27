@@ -301,6 +301,128 @@ body[data-coach-mode="edit"] .movementPanel{
   -webkit-backdrop-filter:blur(18px) saturate(1.2);
 }
 
+.collapseTab{
+  display:none;
+  position:fixed;
+  z-index:120;
+  min-height:46px;
+  padding:10px 16px;
+  border-radius:999px;
+  background:linear-gradient(180deg,var(--latin-orange),#ef6f00);
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:0 14px 32px rgba(0,0,0,.36);
+  touch-action:pan-y;
+}
+
+.topControlsTab{
+  top:calc(8px + env(safe-area-inset-top));
+  left:50%;
+  transform:translateX(-50%);
+  background:linear-gradient(180deg,var(--latin-blue),#063b72);
+}
+
+.bottomToolsTab{
+  bottom:calc(10px + env(safe-area-inset-bottom));
+  left:50%;
+  transform:translateX(-50%);
+  background:linear-gradient(180deg,var(--latin-blue),#063b72);
+}
+
+.sidePanelTab{
+  top:50%;
+  min-height:42px;
+  padding:9px 13px;
+  transform:translateY(-50%);
+  background:linear-gradient(180deg,var(--latin-blue),#063b72);
+}
+
+.leftPanelTab{
+  left:12px;
+}
+
+.rightPanelTab{
+  right:12px;
+}
+
+body:not(.topControlsCollapsed) .topControlsTab{
+  display:none!important;
+}
+
+body:not(.bottomToolsCollapsed) .bottomToolsTab{
+  display:none!important;
+}
+
+body:not(.leftPanelCollapsed) .leftPanelTab,
+body:not(.rightPanelCollapsed) .rightPanelTab{
+  display:none!important;
+}
+
+body.topControlsCollapsed .topControlsTab{
+  top:calc(25px + env(safe-area-inset-top));
+  right:24px;
+  left:auto;
+  transform:none;
+}
+
+body.bottomToolsCollapsed .bottomToolsTab{
+  right:auto;
+  bottom:calc(10px + env(safe-area-inset-bottom));
+  left:50%;
+  transform:translateX(-50%);
+}
+
+body.topControlsCollapsed .coachModeTabs,
+body.topControlsCollapsed .headerActions{
+  display:none!important;
+}
+
+body.topControlsCollapsed .appHeader{
+  grid-template-columns:1fr;
+}
+
+body.bottomToolsCollapsed .floatingToolbar{
+  display:none!important;
+}
+
+body.topControlsCollapsed .topControlsTab,
+body.bottomToolsCollapsed .bottomToolsTab,
+body.leftPanelCollapsed .leftPanelTab,
+body.rightPanelCollapsed .rightPanelTab{
+  display:block!important;
+  background:linear-gradient(180deg,var(--latin-orange),#ef6f00);
+}
+
+.embeddedHideButton{
+  min-height:34px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.14);
+  border-color:rgba(255,255,255,.24);
+  color:#fff;
+  font-size:12px;
+  line-height:1;
+  box-shadow:none;
+}
+
+.floatingPanel .embeddedHideButton{
+  position:absolute;
+  top:10px;
+  right:10px;
+}
+
+.floatingPanel.hasHideButton{
+  padding-top:42px;
+}
+
+.floatingToolbar .embeddedHideButton{
+  min-height:42px;
+  align-self:center;
+}
+
+.headerActions .embeddedHideButton{
+  min-height:46px;
+}
+
 .viewToolbar,.drawToolbar,.editToolbar{display:none!important}
 body[data-coach-mode="view"] .viewToolbar{display:flex!important}
 body[data-coach-mode="draw"] .drawToolbar{display:flex!important}
@@ -668,6 +790,15 @@ html,body{
   max-height:calc(100dvh - 132px);
 }
 
+body.topControlsCollapsed .courtWrap{
+  width:min(100%,calc((100dvh - 58px) * 1.6667),1500px);
+  max-height:calc(100dvh - 58px);
+}
+
+body.topControlsCollapsed .courtWrap svg{
+  max-height:calc(100dvh - 58px);
+}
+
 .floatingPanel{
   display:none!important;
   position:absolute!important;
@@ -826,6 +957,38 @@ body.rightPanelCollapsed .movementPanel{
     min-height:520px!important;
   }
 
+  .collapseTab{
+    min-height:42px;
+    padding:8px 13px;
+    font-size:14px;
+  }
+
+  body:not(.topControlsCollapsed) .topControlsTab{
+    display:none!important;
+  }
+
+  body:not(.bottomToolsCollapsed) .bottomToolsTab{
+    display:none!important;
+  }
+
+  body:not(.leftPanelCollapsed) .leftPanelTab,
+  body:not(.rightPanelCollapsed) .rightPanelTab{
+    display:none!important;
+  }
+
+  body.topControlsCollapsed .topControlsTab{
+    top:calc(8px + env(safe-area-inset-top));
+    right:auto;
+    left:50%;
+    transform:translateX(-50%);
+  }
+
+  body.bottomToolsCollapsed .bottomToolsTab{
+    right:auto;
+    bottom:calc(10px + env(safe-area-inset-bottom));
+    left:50%;
+    transform:translateX(-50%);
+  }
 }
 
 @media(max-width:1120px){
@@ -847,6 +1010,16 @@ body.rightPanelCollapsed .movementPanel{
   .courtWrap,
   .courtWrap svg{
     max-height:calc(100dvh - 230px);
+  }
+
+  body.topControlsCollapsed .courtStage{
+    height:calc(100dvh - 68px);
+    min-height:520px!important;
+  }
+
+  body.topControlsCollapsed .courtWrap,
+  body.topControlsCollapsed .courtWrap svg{
+    max-height:calc(100dvh - 92px);
   }
 
   .playPanel{
@@ -902,8 +1075,31 @@ body.rightPanelCollapsed .movementPanel{
     max-height:none!important;
   }
 
-  .appShell{
+  body:not(.topControlsCollapsed) .appShell{
     padding-top:228px;
+  }
+
+  body.topControlsCollapsed .appHeader{
+    grid-template-columns:1fr;
+  }
+
+  body.topControlsCollapsed .brandBlock{
+    justify-content:flex-start;
+  }
+
+  body.topControlsCollapsed .topControlsTab{
+    top:calc(22px + env(safe-area-inset-top));
+    right:18px;
+    left:auto;
+    transform:none;
+  }
+
+  body.bottomToolsCollapsed .bottomToolsTab{
+    display:block!important;
+  }
+
+  .sidePanelTab{
+    display:none!important;
   }
 
   .floatingPanel{
@@ -936,9 +1132,9 @@ body.rightPanelCollapsed .movementPanel{
     display:none!important;
   }
 
-  body[data-coach-mode="view"] .viewToolbar,
-  body[data-coach-mode="draw"] .drawToolbar,
-  body[data-coach-mode="edit"] .editToolbar{
+  body[data-coach-mode="view"]:not(.bottomToolsCollapsed) .viewToolbar,
+  body[data-coach-mode="draw"]:not(.bottomToolsCollapsed) .drawToolbar,
+  body[data-coach-mode="edit"]:not(.bottomToolsCollapsed) .editToolbar{
     display:grid!important;
   }
 

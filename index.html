@@ -17,7 +17,7 @@
 <body data-coach-mode="draw">
 <script>
   if (window.matchMedia && window.matchMedia("(pointer: coarse) and (max-width: 1120px)").matches) {
-    document.body.classList.add("rightPanelCollapsed","mobileCompactBoot");
+    document.body.classList.add("leftPanelCollapsed","rightPanelCollapsed","bottomToolsCollapsed","mobileCompactBoot");
   }
 </script>
 <div class="app appShell">
@@ -41,6 +41,7 @@
       <button type="button" id="saveBuilderPlayTop">Save</button>
     </div>
   </header>
+  <button type="button" id="topControlsTab" class="collapseTab topControlsTab">Controls</button>
 
   <main id="viewer" class="screen viewerScreen">
     <section class="courtStage">
@@ -114,6 +115,9 @@
         <div id="playerShareTitle" class="playerShareTitle">Player View</div>
         <div id="playerPlaylistList" class="compactList"></div>
       </aside>
+
+      <button type="button" id="leftPanelTab" class="collapseTab sidePanelTab leftPanelTab">Hide Steps</button>
+      <button type="button" id="rightPanelTab" class="collapseTab sidePanelTab rightPanelTab">Hide Info</button>
 
       <div class="floatingToolbar viewToolbar">
         <button id="prevStep" type="button">Back</button>
@@ -254,6 +258,7 @@
       </div>
     </section>
   </main>
+  <button type="button" id="bottomToolsTab" class="collapseTab bottomToolsTab">Tools</button>
 </div>
 
 <div id="videoOverlay" class="videoOverlay hidden" role="dialog" aria-modal="true" aria-labelledby="videoTitle">
@@ -270,7 +275,7 @@
 </div>
 
 <!-- Temporary build marker. Remove this element and .buildWatermark before public release. -->
-<div class="buildWatermark" aria-label="Build version">Build PWA v16 · 2026-06-27</div>
+<div class="buildWatermark" aria-label="Build version">Build PWA v15 · 2026-06-27</div>
 
 <script type="module" src="app.js"></script>
 <script type="module" src="pwa.js"></script>

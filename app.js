@@ -1766,23 +1766,144 @@ if(eraserInk) eraserInk.addEventListener("click",()=>{
 
 function setTopControlsCollapsed(collapsed){
   document.body.classList.toggle("topControlsCollapsed",Boolean(collapsed));
+  updateCollapseTabLabels();
 }
 
 function setBottomToolsCollapsed(collapsed){
   document.body.classList.toggle("bottomToolsCollapsed",Boolean(collapsed));
+  updateCollapseTabLabels();
 }
 
 function setLeftPanelCollapsed(collapsed){
   document.body.classList.toggle("leftPanelCollapsed",Boolean(collapsed));
+  updateCollapseTabLabels();
 }
 
 function setRightPanelCollapsed(collapsed){
   document.body.classList.toggle("rightPanelCollapsed",Boolean(collapsed));
+  updateCollapseTabLabels();
+}
+
+function updateCollapseTabLabels(){
+  const topTab=document.getElementById("topControlsTab");
+  const bottomTab=document.getElementById("bottomToolsTab");
+  const leftTab=document.getElementById("leftPanelTab");
+  const rightTab=document.getElementById("rightPanelTab");
+  const topCollapsed=document.body.classList.contains("topControlsCollapsed");
+  const bottomCollapsed=document.body.classList.contains("bottomToolsCollapsed");
+  const leftCollapsed=document.body.classList.contains("leftPanelCollapsed");
+  const rightCollapsed=document.body.classList.contains("rightPanelCollapsed");
+  const mode=document.body.dataset.coachMode || "view";
+  const leftLabels={view:"Steps",edit:"Build Steps",library:"Shared Plays"};
+  const rightLabels={view:"Info",library:"Library",share:"Share",edit:"Details"};
+  const leftName=playerView && mode==="library" ? "Shared Plays" : leftLabels[mode];
+  const rightName=rightLabels[mode];
+  if(topTab){
+    topTab.textContent=topCollapsed ? "Controls" : "Hide Controls";
+    topTab.setAttribute("aria-expanded",String(!topCollapsed));
+  }
+  if(bottomTab){
+    bottomTab.textContent=bottomCollapsed ? "Tools" : "Hide Tools";
+    bottomTab.setAttribute("aria-expanded",String(!bottomCollapsed));
+  }
+  if(leftTab){
+    leftTab.classList.toggle("hidden",!leftName);
+    leftTab.textContent=leftCollapsed ? leftName || "Panel" : `Hide ${leftName || "Panel"}`;
+    leftTab.setAttribute("aria-expanded",String(!leftCollapsed));
+  }
+  if(rightTab){
+    rightTab.classList.toggle("hidden",!rightName);
+    rightTab.textContent=rightCollapsed ? rightName || "Panel" : `Hide ${rightName || "Panel"}`;
+    rightTab.setAttribute("aria-expanded",String(!rightCollapsed));
+  }
+}
+
+function addSwipeGesture(element, handlers){
+  if(!element) return;
+  let startX=0;
+  let startY=0;
+
+  element.addEventListener("touchstart",event=>{
+    const touch=event.changedTouches[0];
+    if(!touch) return;
+    startX=touch.clientX;
+    startY=touch.clientY;
+  },{passive:true});
+
+  element.addEventListener("touchend",event=>{
+    const touch=event.changedTouches[0];
+    if(!touch) return;
+    const dx=touch.clientX-startX;
+    const dy=touch.clientY-startY;
+    const verticalSwipe=Math.abs(dy)>52 && Math.abs(dy)>Math.abs(dx)*1.2;
+    const horizontalSwipe=Math.abs(dx)>52 && Math.abs(dx)>Math.abs(dy)*1.2;
+    if(verticalSwipe){
+      if(dy<0 && handlers.up) handlers.up();
+      if(dy>0 && handlers.down) handlers.down();
+    }
+    if(horizontalSwipe){
+      if(dx<0 && handlers.left) handlers.left();
+      if(dx>0 && handlers.right) handlers.right();
+    }
+  },{passive:true});
 }
 
 function setupCollapsibleControls(){
-  setTopControlsCollapsed(false);
-  setBottomToolsCollapsed(false);
+  const header=document.querySelector(".appHeader");
+  const headerActions=document.querySelector(".headerActions");
+  const topTab=document.getElementById("topControlsTab");
+  const bottomTab=document.getElementById("bottomToolsTab");
+  const leftTab=document.getElementById("leftPanelTab");
+  const rightTab=document.getElementById("rightPanelTab");
+  const toolbars=document.querySelectorAll(".floatingToolbar");
+  const leftPanels=document.querySelectorAll(".stepsPanel,.builderStepsPanel,.playerLibraryPanel");
+  const rightPanels=document.querySelectorAll(".playPanel,.libraryPanel,.sharePanel,.editPanel,.movementPanel");
+
+  function addEmbeddedHideButton(container,label,handler){
+    if(!container || container.querySelector(":scope > .embeddedHideButton")) return;
+    const btn=document.createElement("button");
+    btn.type="button";
+    btn.className="embeddedHideButton";
+    btn.textContent=label;
+    btn.addEventListener("click",event=>{
+      event.preventDefault();
+      event.stopPropagation();
+      handler();
+    });
+    container.appendChild(btn);
+    container.classList.add("hasHideButton");
+  }
+
+  toolbars.forEach(toolbar=>addEmbeddedHideButton(toolbar,"Hide Tools",()=>setBottomToolsCollapsed(true)));
+  leftPanels.forEach(panel=>addEmbeddedHideButton(panel,"Hide",()=>setLeftPanelCollapsed(true)));
+  rightPanels.forEach(panel=>addEmbeddedHideButton(panel,"Hide",()=>setRightPanelCollapsed(true)));
+
+  addSwipeGesture(header,{up:()=>setTopControlsCollapsed(true)});
+  toolbars.forEach(toolbar=>addSwipeGesture(toolbar,{down:()=>setBottomToolsCollapsed(true)}));
+  leftPanels.forEach(panel=>addSwipeGesture(panel,{left:()=>setLeftPanelCollapsed(true)}));
+  rightPanels.forEach(panel=>addSwipeGesture(panel,{right:()=>setRightPanelCollapsed(true)}));
+
+  if(topTab){
+    topTab.addEventListener("click",()=>setTopControlsCollapsed(!document.body.classList.contains("topControlsCollapsed")));
+    addSwipeGesture(topTab,{down:()=>setTopControlsCollapsed(false)});
+  }
+
+  if(bottomTab){
+    bottomTab.addEventListener("click",()=>setBottomToolsCollapsed(!document.body.classList.contains("bottomToolsCollapsed")));
+    addSwipeGesture(bottomTab,{up:()=>setBottomToolsCollapsed(false)});
+  }
+
+  if(leftTab){
+    leftTab.addEventListener("click",()=>setLeftPanelCollapsed(!document.body.classList.contains("leftPanelCollapsed")));
+    addSwipeGesture(leftTab,{right:()=>setLeftPanelCollapsed(false)});
+  }
+
+  if(rightTab){
+    rightTab.addEventListener("click",()=>setRightPanelCollapsed(!document.body.classList.contains("rightPanelCollapsed")));
+    addSwipeGesture(rightTab,{left:()=>setRightPanelCollapsed(false)});
+  }
+
+  updateCollapseTabLabels();
 }
 
 function isCompactTouchLayout(){
@@ -1794,7 +1915,7 @@ function applyMobileModeChrome(mode=document.body.dataset.coachMode || "view"){
 
   setTopControlsCollapsed(false);
   setBottomToolsCollapsed(false);
-  setLeftPanelCollapsed(false);
+  setLeftPanelCollapsed(true);
 
   const panelMode = mode === "library" || mode === "share" || mode === "edit";
   setRightPanelCollapsed(!panelMode);
