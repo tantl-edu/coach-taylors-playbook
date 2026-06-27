@@ -1806,7 +1806,6 @@ function setupCollapsibleControls(){
     container.classList.add("hasHideButton");
   }
 
-  addEmbeddedHideButton(headerActions || header,"Hide Controls",()=>setTopControlsCollapsed(true));
   toolbars.forEach(toolbar=>addEmbeddedHideButton(toolbar,"Hide Tools",()=>setBottomToolsCollapsed(true)));
   leftPanels.forEach(panel=>addEmbeddedHideButton(panel,"Hide",()=>setLeftPanelCollapsed(true)));
   rightPanels.forEach(panel=>addEmbeddedHideButton(panel,"Hide",()=>setRightPanelCollapsed(true)));

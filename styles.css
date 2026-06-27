@@ -118,7 +118,7 @@ header p{margin:4px 0 0;color:var(--latin-orange);font-weight:900;letter-spacing
   box-shadow:none;
   border-color:transparent;
 }
-.headerActions{display:flex;justify-content:flex-end;gap:9px}
+.headerActions{display:none!important}
 
 .screen{min-height:0}
 .screen{
@@ -385,9 +385,7 @@ body.bottomToolsCollapsed .floatingToolbar{
 }
 
 body.topControlsCollapsed .topControlsTab,
-body.bottomToolsCollapsed .bottomToolsTab,
-body.leftPanelCollapsed .leftPanelTab,
-body.rightPanelCollapsed .rightPanelTab{
+body.bottomToolsCollapsed .bottomToolsTab{
   display:block!important;
   background:linear-gradient(180deg,var(--latin-orange),#ef6f00);
 }
@@ -1013,6 +1011,10 @@ body.rightPanelCollapsed .movementPanel{
     display:block!important;
   }
 
+  .leftPanelTab,
+  .rightPanelTab,
+  body.leftPanelCollapsed .leftPanelTab,
+  body.rightPanelCollapsed .rightPanelTab,
   body:not(.leftPanelCollapsed) .leftPanelTab,
   body:not(.rightPanelCollapsed) .rightPanelTab{
     display:none!important;
@@ -1024,7 +1026,7 @@ body.rightPanelCollapsed .movementPanel{
   }
 
   .floatingPanel{
-    max-height:calc(100dvh - 300px)!important;
+    max-height:calc(100dvh - 270px)!important;
   }
 
   .floatingPanel.hasHideButton{
