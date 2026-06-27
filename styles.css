@@ -1,0 +1,1171 @@
+*{box-sizing:border-box}
+:root{
+  --latin-blue:#004b93;
+  --latin-orange:#f58220;
+  --navy-950:#020c16;
+  --navy-900:#061c31;
+  --navy-800:#0b2c4c;
+  --navy-700:#123d66;
+  --text:#f7fbff;
+  --muted:#b7c8d8;
+  --green:#72d238;
+  --glass:rgba(5,25,44,.52);
+  --glass-strong:rgba(4,18,32,.62);
+  --stroke:rgba(255,255,255,.15);
+  --court-rest-y:18px;
+}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  font-family:Arial,Helvetica,sans-serif;
+  background:radial-gradient(circle at 20% 0%,#123d66 0%,#061c31 34%,#020c16 100%);
+  color:var(--text);
+  overscroll-behavior:none;
+}
+
+button,select,input{font:inherit}
+button{
+  min-height:48px;
+  border:1px solid var(--stroke);
+  background:linear-gradient(180deg,var(--latin-blue),#063b72);
+  color:#fff;
+  border-radius:14px;
+  padding:11px 15px;
+  font-weight:900;
+  cursor:pointer;
+  touch-action:manipulation;
+  box-shadow:0 10px 22px rgba(0,0,0,.22);
+}
+button:hover,button.active,.coachModeTabs button.active{
+  background:linear-gradient(180deg,var(--latin-orange),#ef6f00);
+  color:#fff;
+}
+button.danger{background:rgba(120,0,20,.45);border-color:#bd3340;color:#ffced3}
+button.secondary{background:rgba(255,255,255,.08)}
+button.primaryAction{min-width:86px;background:linear-gradient(180deg,var(--latin-orange),#ef6f00)}
+
+select,input{
+  width:100%;
+  min-height:46px;
+  border:1px solid rgba(255,255,255,.24);
+  border-radius:12px;
+  padding:10px;
+  background:rgba(255,255,255,.10);
+  color:var(--text);
+}
+option{color:#111}
+label{
+  display:grid;
+  gap:6px;
+  margin:10px 0;
+  font-size:12px;
+  text-transform:uppercase;
+  font-weight:900;
+  letter-spacing:.04em;
+  color:var(--muted);
+}
+
+.appShell{
+  min-height:100vh;
+  display:grid;
+  grid-template-rows:auto 1fr;
+  gap:12px;
+  padding:78px 12px 12px;
+  max-width:1720px;
+  margin:auto;
+}
+
+.appHeader{
+  position:fixed;
+  z-index:120;
+  top:12px;
+  left:50%;
+  width:min(calc(100vw - 24px),1696px);
+  transform:translateX(-50%);
+  display:grid;
+  grid-template-columns:minmax(260px,1fr) auto minmax(160px,1fr);
+  align-items:center;
+  gap:14px;
+  background:rgba(3,16,29,.56);
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:20px;
+  padding:10px 14px;
+  box-shadow:0 14px 34px rgba(0,0,0,.32);
+  backdrop-filter:blur(18px) saturate(1.15);
+  -webkit-backdrop-filter:blur(18px) saturate(1.15);
+}
+
+.brandBlock{display:flex;align-items:center;gap:13px;min-width:0}
+.brandLogo{width:76px;height:auto;display:block;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
+h1{font-size:23px;line-height:1.05;margin:0;color:#fff}
+header p{margin:4px 0 0;color:var(--latin-orange);font-weight:900;letter-spacing:.07em;text-transform:uppercase;font-size:12px}
+
+.modeTabs{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  padding:5px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:16px;
+  background:rgba(255,255,255,.10);
+}
+.modeTabs button{
+  min-width:84px;
+  min-height:44px;
+  padding:9px 12px;
+  background:transparent;
+  box-shadow:none;
+  border-color:transparent;
+}
+.headerActions{display:flex;justify-content:flex-end;gap:9px}
+
+.screen{min-height:0}
+.screen{
+  transform:translate3d(var(--rubber-x,0px),calc(var(--court-rest-y) + var(--rubber-y,0px)),0);
+  will-change:transform;
+}
+
+body.rubberDragging .screen{
+  transition:none;
+}
+
+body.rubberRecovering .screen{
+  transition:none;
+}
+.hidden,.hiddenControls{display:none!important}
+
+/* Temporary build marker. Remove before public release. */
+.buildWatermark{
+  position:fixed;
+  right:calc(16px + env(safe-area-inset-right));
+  bottom:calc(82px + env(safe-area-inset-bottom));
+  z-index:300;
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(245,130,32,.96);
+  border:2px solid rgba(255,255,255,.88);
+  color:#061c31;
+  font-size:13px;
+  font-weight:800;
+  line-height:1;
+  pointer-events:none;
+  box-shadow:0 12px 28px rgba(0,0,0,.38);
+  text-shadow:none;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+
+.courtStage{
+  position:relative;
+  min-height:calc(100vh - 118px);
+  margin-top:-18px;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  border-radius:22px;
+}
+
+.courtWrap{
+  width:min(100%,1500px);
+  background:#061c31;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:18px;
+  box-shadow:0 22px 52px rgba(0,0,0,.42);
+  overflow:hidden;
+  touch-action:none;
+}
+
+svg{
+  width:100%;
+  height:auto;
+  display:block;
+  user-select:none;
+  -webkit-user-select:none;
+  background:#061c31;
+}
+
+#court,#builderCourt{
+  border-radius:18px;
+}
+
+.floatingPanel{
+  position:absolute;
+  z-index:20;
+  width:min(360px,88vw);
+  max-height:calc(100vh - 150px);
+  overflow:auto;
+  padding:15px;
+  background:linear-gradient(180deg,rgba(14,46,77,.60),rgba(5,25,44,.50));
+  border:1px solid rgba(255,255,255,.20);
+  border-radius:18px;
+  box-shadow:0 18px 44px rgba(0,0,0,.38);
+  backdrop-filter:blur(18px) saturate(1.2);
+  -webkit-backdrop-filter:blur(18px) saturate(1.2);
+  transition:transform .24s ease,opacity .2s ease;
+}
+
+.playPanel{
+  right:18px;
+  top:18px;
+  opacity:.96;
+}
+.stepsPanel,.builderStepsPanel{
+  left:18px;
+  top:18px;
+  transform:translateX(-112%);
+}
+.libraryPanel,.sharePanel,.editPanel,.movementPanel{
+  right:18px;
+  top:18px;
+  transform:translateX(112%);
+}
+.playerLibraryPanel{
+  left:18px;
+  top:18px;
+  transform:translateX(-112%);
+}
+.builderStepsPanel{transform:translateX(0)}
+.editPanel{transform:translateX(0)}
+.movementPanel{top:auto;bottom:96px}
+
+body[data-coach-mode="library"] .libraryPanel,
+body[data-coach-mode="share"] .sharePanel{
+  transform:translateX(0);
+}
+body[data-coach-mode="library"] .playPanel,
+body[data-coach-mode="share"] .playPanel,
+body[data-coach-mode="draw"] .playPanel{
+  transform:translateX(112%);
+}
+body[data-coach-mode="view"] .stepsPanel{
+  transform:translateX(0);
+}
+body[data-coach-mode="edit"] .movementPanel{
+  transform:translateX(0);
+}
+.playerView .coachModeTabs,
+.playerView .headerActions,
+.playerView #drawModeShortcut,
+.playerView #shareModeShortcut,
+.playerView .drawToolbar,
+.playerView .editToolbar,
+.playerView .sharePanel,
+.playerView .libraryPanel,
+.playerView .builderStepsPanel,
+.playerView .editPanel,
+.playerView .movementPanel,
+.playerView #blankCourtQuick{
+  display:none!important;
+}
+.playerView .appHeader{
+  grid-template-columns:1fr;
+}
+.playerView .brandBlock{
+  justify-content:center;
+}
+.playerView .playPanel{
+  transform:translateX(0)!important;
+}
+.playerView[data-coach-mode="library"] .playerLibraryPanel,
+.playerView[data-coach-mode="view"] .playerLibraryPanel{
+  transform:translateX(0);
+}
+.playerView .stepsPanel{
+  top:auto;
+  bottom:96px;
+  max-height:34vh;
+}
+
+.floatingToolbar{
+  position:absolute;
+  left:50%;
+  bottom:18px;
+  z-index:30;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  max-width:calc(100% - 28px);
+  padding:10px;
+  background:rgba(5,25,44,.56);
+  border:1px solid rgba(255,255,255,.20);
+  border-radius:20px;
+  box-shadow:0 18px 44px rgba(0,0,0,.38);
+  backdrop-filter:blur(18px) saturate(1.2);
+  -webkit-backdrop-filter:blur(18px) saturate(1.2);
+}
+
+.collapseTab{
+  display:none;
+  position:fixed;
+  z-index:120;
+  min-height:46px;
+  padding:10px 16px;
+  border-radius:999px;
+  background:linear-gradient(180deg,var(--latin-orange),#ef6f00);
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:0 14px 32px rgba(0,0,0,.36);
+  touch-action:pan-y;
+}
+
+.topControlsTab{
+  top:calc(8px + env(safe-area-inset-top));
+  left:50%;
+  transform:translateX(-50%);
+  background:linear-gradient(180deg,var(--latin-blue),#063b72);
+}
+
+.bottomToolsTab{
+  bottom:calc(10px + env(safe-area-inset-bottom));
+  left:50%;
+  transform:translateX(-50%);
+  background:linear-gradient(180deg,var(--latin-blue),#063b72);
+}
+
+.sidePanelTab{
+  top:50%;
+  min-height:42px;
+  padding:9px 13px;
+  transform:translateY(-50%);
+  background:linear-gradient(180deg,var(--latin-blue),#063b72);
+}
+
+.leftPanelTab{
+  left:12px;
+}
+
+.rightPanelTab{
+  right:12px;
+}
+
+body:not(.topControlsCollapsed) .topControlsTab{
+  display:none!important;
+}
+
+body:not(.bottomToolsCollapsed) .bottomToolsTab{
+  display:none!important;
+}
+
+body:not(.leftPanelCollapsed) .leftPanelTab,
+body:not(.rightPanelCollapsed) .rightPanelTab{
+  display:none!important;
+}
+
+body.topControlsCollapsed .topControlsTab{
+  top:calc(25px + env(safe-area-inset-top));
+  right:24px;
+  left:auto;
+  transform:none;
+}
+
+body.bottomToolsCollapsed .bottomToolsTab{
+  right:auto;
+  bottom:calc(10px + env(safe-area-inset-bottom));
+  left:50%;
+  transform:translateX(-50%);
+}
+
+body.topControlsCollapsed .coachModeTabs,
+body.topControlsCollapsed .headerActions{
+  display:none!important;
+}
+
+body.topControlsCollapsed .appHeader{
+  grid-template-columns:1fr;
+}
+
+body.bottomToolsCollapsed .floatingToolbar{
+  display:none!important;
+}
+
+body.topControlsCollapsed .topControlsTab,
+body.bottomToolsCollapsed .bottomToolsTab,
+body.leftPanelCollapsed .leftPanelTab,
+body.rightPanelCollapsed .rightPanelTab{
+  display:block!important;
+  background:linear-gradient(180deg,var(--latin-orange),#ef6f00);
+}
+
+.embeddedHideButton{
+  min-height:34px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.14);
+  border-color:rgba(255,255,255,.24);
+  color:#fff;
+  font-size:12px;
+  line-height:1;
+  box-shadow:none;
+}
+
+.floatingPanel .embeddedHideButton{
+  position:absolute;
+  top:10px;
+  right:10px;
+}
+
+.floatingPanel.hasHideButton{
+  padding-top:42px;
+}
+
+.floatingToolbar .embeddedHideButton{
+  min-height:42px;
+  align-self:center;
+}
+
+.headerActions .embeddedHideButton{
+  min-height:46px;
+}
+
+.drawToolbar,.editToolbar{display:none}
+body[data-coach-mode="draw"] .viewToolbar{display:none}
+body[data-coach-mode="draw"] .drawToolbar{display:flex}
+body[data-coach-mode="edit"] .editToolbar{display:flex}
+
+.speedControl,.penChooser{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:136px;
+  margin:0;
+  color:#fff;
+}
+.speedControl select,.penChooser select{min-width:88px;padding:8px;min-height:42px}
+
+.panelKicker,.panelTitle{
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  font-weight:900;
+  color:var(--latin-orange);
+  margin-bottom:10px;
+}
+.floatingPanel h2{
+  margin:0 0 8px;
+  font-size:22px;
+  color:#fff;
+}
+.floatingPanel p{line-height:1.42;color:#dce8f5}
+#stepBadge{
+  display:inline-block;
+  background:var(--latin-orange);
+  color:#fff;
+  padding:7px 11px;
+  border-radius:999px;
+  font-weight:900;
+  margin:8px 0;
+}
+
+.stepList{display:grid;gap:8px;margin-bottom:12px}
+.stepItem{
+  display:grid;
+  grid-template-columns:30px 1fr;
+  align-items:center;
+  gap:8px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.10);
+  border-radius:12px;
+  padding:10px;
+  color:#fff;
+  text-align:left;
+  font-weight:800;
+  box-shadow:none;
+}
+.stepItem.active{background:linear-gradient(180deg,var(--latin-orange),#e96a00);border-color:transparent}
+.stepName{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.libraryRows{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.compactList{display:grid;gap:8px}
+.compactList button{
+  min-height:44px;
+  text-align:left;
+  background:rgba(255,255,255,.10);
+  box-shadow:none;
+}
+.sharePreview{
+  min-height:150px;
+  display:grid;
+  place-items:center;
+  margin-top:12px;
+  border:1px dashed rgba(255,255,255,.22);
+  border-radius:14px;
+  background:rgba(5,25,44,.22);
+  color:#dce8f5;
+  text-align:center;
+  padding:12px;
+}
+.coachNotes{
+  margin-top:12px;
+  padding:11px;
+  border-radius:14px;
+  background:rgba(255,255,255,.11);
+  color:#eaf3ff;
+  line-height:1.4;
+  font-weight:700;
+}
+.playerShareTitle{
+  margin-bottom:10px;
+  color:#fff;
+  font-weight:900;
+}
+.shareUrl{
+  max-width:100%;
+  overflow-wrap:anywhere;
+  padding:10px;
+  margin:10px 0;
+  border-radius:12px;
+  background:rgba(255,255,255,.12);
+  color:#fff;
+  font-size:13px;
+  line-height:1.35;
+}
+.privacyNote{
+  color:#bfe4ff;
+}
+.qrPlaceholder{
+  width:112px;
+  height:112px;
+  display:grid;
+  place-items:center;
+  margin:auto auto 10px;
+  border-radius:12px;
+  background:
+    linear-gradient(90deg,#111 12px,transparent 12px) 0 0/28px 28px,
+    linear-gradient(#111 12px,transparent 12px) 0 0/28px 28px,
+    #fff;
+  color:#111;
+  font-weight:900;
+}
+.qrCodeImg{
+  width:min(240px,100%);
+  height:auto;
+  display:block;
+  margin:0 auto 12px;
+  padding:10px;
+  background:#fff;
+  border-radius:12px;
+}
+
+.movementGrid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+  padding:10px;
+  margin:12px 0 0;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:14px;
+  background:rgba(255,255,255,.08);
+}
+.movementTitle{grid-column:1 / -1;font-weight:900;color:var(--latin-orange)}
+.movementGrid label{margin:0}
+.movementGrid select{min-width:0;font-size:14px}
+.small{font-size:13px;color:var(--muted);line-height:1.35}
+.editStatus{color:#f9c68e!important;font-weight:900}
+.builderHelp{position:absolute;left:18px;bottom:96px;z-index:22;width:min(340px,86vw);background:var(--glass);border:1px solid var(--latin-orange);border-radius:16px;padding:12px;backdrop-filter:blur(18px) saturate(1.2);-webkit-backdrop-filter:blur(18px) saturate(1.2)}
+.checkRow{display:flex!important;align-items:center;gap:8px!important;text-transform:none!important;letter-spacing:0!important;font-size:13px!important;color:#fff!important}
+.checkRow input{width:auto;min-height:auto}
+
+.player{cursor:pointer}
+.player circle{
+  fill:#0b4f9c;
+  stroke:#ffffff;
+  stroke-width:4;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,.35));
+}
+.player text{
+  fill:#ffffff!important;
+  font-family:Inter,Arial,sans-serif;
+  font-size:24px;
+  font-weight:900;
+  text-anchor:middle;
+  dominant-baseline:middle;
+  pointer-events:none;
+  paint-order:stroke;
+  stroke:rgba(0,0,0,.35);
+  stroke-width:1.25px;
+}
+.playerShot circle{stroke:var(--green)!important;stroke-width:9!important;fill:#0e4f2e!important}
+.action{stroke:#06233e;stroke-width:5.5;fill:none;filter:drop-shadow(0 2px 1px rgba(255,255,255,.22))}
+.action.cut{stroke-dasharray:14 10}
+.action.dribble{stroke-dasharray:2 12;stroke-linecap:round}
+.action.slip{stroke-dasharray:8 8}
+.action.shot{stroke:var(--green);stroke-dasharray:4 8}
+.screen{stroke:#06233e;stroke-width:6.5}
+.flareScreen{stroke-dasharray:12 8}
+.ink{stroke-width:6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ball{fill:var(--latin-orange);stroke:#111;stroke-width:3;filter:drop-shadow(0 3px 4px rgba(0,0,0,.48))}
+.ballLines{stroke:#111;stroke-width:2;fill:none;opacity:.8}
+.drawingOn #court{cursor:crosshair}
+.builderCurvePreview{stroke:var(--green)!important;stroke-width:4!important;stroke-dasharray:10 8;opacity:.9}
+
+.pen{background:#fff;color:#111}
+.pen.black.activePen{background:#111;color:#fff}
+.pen.red.activePen{background:#d32f2f;color:#fff}
+.pen.blue.activePen{background:#004b93;color:#fff}
+.pen.green.activePen{background:#2e7d32;color:#fff}
+.legacyPen{display:none!important}
+
+@media(max-width:1120px){
+  .appHeader{grid-template-columns:1fr;justify-items:stretch}
+  .modeTabs,.headerActions{justify-content:center;flex-wrap:wrap}
+  .modeTabs button{flex:1;min-width:86px}
+  .courtStage{min-height:calc(100vh - 210px)}
+  .playPanel{display:none}
+}
+
+@media(max-width:780px){
+  .appShell{padding:148px 8px 8px}
+  .brandLogo{width:62px}
+  h1{font-size:20px}
+  header p{font-size:10px}
+  .appHeader{
+    gap:8px;
+    padding:8px 10px;
+  }
+  .brandBlock{
+    justify-content:center;
+  }
+  .modeTabs{
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    width:100%;
+  }
+  .modeTabs button{
+    min-width:0;
+    min-height:42px;
+    padding:7px 6px;
+    font-size:13px;
+  }
+  .headerActions{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    width:100%;
+    gap:8px;
+  }
+  .headerActions button{
+    min-width:0;
+    min-height:42px;
+    padding:7px 8px;
+    font-size:13px;
+  }
+  .courtStage{min-height:calc(100vh - 218px)}
+  .floatingPanel{
+    top:10px;
+    right:10px;
+    left:10px;
+    width:auto;
+    max-height:42vh;
+  }
+  .stepsPanel,.builderStepsPanel{transform:translateY(-115%)}
+  .libraryPanel,.sharePanel,.editPanel,.movementPanel,.playerLibraryPanel{transform:translateY(-115%)}
+  body[data-coach-mode="view"] .stepsPanel,
+  body[data-coach-mode="library"] .libraryPanel,
+  body[data-coach-mode="share"] .sharePanel,
+  body[data-coach-mode="edit"] .editPanel,
+  body[data-coach-mode="edit"] .movementPanel{
+    transform:translateY(0);
+  }
+  .playerView[data-coach-mode="library"] .playerLibraryPanel,
+  .playerView[data-coach-mode="view"] .playerLibraryPanel{
+    transform:translateY(0);
+  }
+  .movementPanel{top:auto;bottom:92px}
+  .floatingToolbar{
+    display:grid;
+    grid-template-columns:repeat(3,auto);
+    width:calc(100% - 20px);
+    overflow:auto;
+    justify-content:start;
+  }
+  .movementGrid{grid-template-columns:1fr 1fr}
+  .movementTitle{grid-column:1 / -1}
+}
+
+/* Compact overlay repair: keep tools out of page flow and reveal one panel at a time. */
+html,body{
+  height:100%;
+  overflow:hidden;
+}
+
+.appShell{
+  height:100dvh;
+  overflow:hidden;
+}
+
+.screen,
+.courtStage{
+  min-height:0!important;
+  height:100%;
+}
+
+.courtStage{
+  overflow:hidden!important;
+}
+
+.courtWrap{
+  width:min(100%,calc((100dvh - 132px) * 1.6667),1500px);
+  max-height:calc(100dvh - 132px);
+}
+
+.courtWrap svg{
+  max-height:calc(100dvh - 132px);
+}
+
+body.topControlsCollapsed .courtWrap{
+  width:min(100%,calc((100dvh - 58px) * 1.6667),1500px);
+  max-height:calc(100dvh - 58px);
+}
+
+body.topControlsCollapsed .courtWrap svg{
+  max-height:calc(100dvh - 58px);
+}
+
+.floatingPanel{
+  display:none!important;
+  position:absolute!important;
+  z-index:40;
+  max-height:calc(100dvh - 170px);
+}
+
+.playPanel{
+  display:block!important;
+  right:18px!important;
+  top:18px!important;
+  width:min(330px,38vw);
+  transform:translateX(0)!important;
+}
+
+.stepsPanel,
+.libraryPanel,
+.sharePanel,
+.playerLibraryPanel,
+.builderStepsPanel,
+.editPanel,
+.movementPanel{
+  width:min(380px,88vw);
+}
+
+body[data-coach-mode="view"] .stepsPanel,
+body[data-coach-mode="library"] .libraryPanel,
+body[data-coach-mode="share"] .sharePanel,
+body[data-coach-mode="edit"] .editPanel,
+body[data-coach-mode="edit"] .movementPanel,
+.playerView[data-coach-mode="library"] .playerLibraryPanel{
+  display:block!important;
+  transform:translateX(0)!important;
+}
+
+body[data-coach-mode="view"] .stepsPanel,
+.builderStepsPanel,
+.playerLibraryPanel{
+  left:18px!important;
+  top:18px!important;
+}
+
+.libraryPanel,
+.sharePanel,
+.editPanel{
+  right:18px!important;
+  top:18px!important;
+}
+
+.movementPanel{
+  right:18px!important;
+  bottom:92px!important;
+  top:auto!important;
+}
+
+body[data-coach-mode="library"] .playPanel,
+body[data-coach-mode="share"] .playPanel,
+body[data-coach-mode="edit"] .playPanel,
+body[data-coach-mode="draw"] .playPanel{
+  display:none!important;
+}
+
+body.leftPanelCollapsed .stepsPanel,
+body.leftPanelCollapsed .builderStepsPanel,
+body.leftPanelCollapsed .playerLibraryPanel{
+  display:none!important;
+}
+
+body.rightPanelCollapsed .playPanel,
+body.rightPanelCollapsed .libraryPanel,
+body.rightPanelCollapsed .sharePanel,
+body.rightPanelCollapsed .editPanel,
+body.rightPanelCollapsed .movementPanel{
+  display:none!important;
+}
+
+.floatingPanel,
+.stepsPanel,
+.builderStepsPanel,
+.playerLibraryPanel,
+.playPanel,
+.libraryPanel,
+.sharePanel,
+.editPanel,
+.movementPanel,
+.builderHelp{
+  background:linear-gradient(180deg,rgba(14,46,77,.60),rgba(5,25,44,.50))!important;
+  border-color:rgba(255,255,255,.22)!important;
+  backdrop-filter:blur(18px) saturate(1.2)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.2)!important;
+}
+
+.floatingToolbar,
+.playerView .floatingToolbar.viewToolbar{
+  background:rgba(5,25,44,.56)!important;
+  border-color:rgba(255,255,255,.22)!important;
+  backdrop-filter:blur(18px) saturate(1.2)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.2)!important;
+}
+
+.appHeader{
+  background:rgba(3,16,29,.56)!important;
+  border-color:rgba(255,255,255,.18)!important;
+  backdrop-filter:blur(18px) saturate(1.15)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.15)!important;
+}
+
+.floatingToolbar{
+  position:absolute!important;
+  left:50%!important;
+  bottom:18px!important;
+  transform:translateX(-50%)!important;
+}
+
+.hiddenControls,
+[hidden]{
+  display:none!important;
+}
+
+.sharePanel button{
+  width:100%;
+  margin-bottom:8px;
+}
+
+.sharePanel label{
+  margin-top:0;
+}
+
+@media(pointer:coarse){
+  :root{
+    --court-rest-y:10px;
+  }
+
+  html,body{
+    overflow:auto;
+    overscroll-behavior-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  body{
+    min-height:calc(100dvh + 2px);
+  }
+
+  .appShell{
+    height:auto;
+    min-height:calc(100dvh + 2px);
+    overflow:visible;
+  }
+
+  .screen{
+    height:auto;
+  }
+
+  .courtStage{
+    height:calc(100dvh - 118px);
+    min-height:520px!important;
+  }
+
+  .collapseTab{
+    min-height:42px;
+    padding:8px 13px;
+    font-size:14px;
+  }
+
+  body:not(.topControlsCollapsed) .topControlsTab{
+    display:none!important;
+  }
+
+  body:not(.bottomToolsCollapsed) .bottomToolsTab{
+    display:none!important;
+  }
+
+  body:not(.leftPanelCollapsed) .leftPanelTab,
+  body:not(.rightPanelCollapsed) .rightPanelTab{
+    display:none!important;
+  }
+
+  body.topControlsCollapsed .topControlsTab{
+    top:calc(8px + env(safe-area-inset-top));
+    right:auto;
+    left:50%;
+    transform:translateX(-50%);
+  }
+
+  body.bottomToolsCollapsed .bottomToolsTab{
+    right:auto;
+    bottom:calc(10px + env(safe-area-inset-bottom));
+    left:50%;
+    transform:translateX(-50%);
+  }
+}
+
+@media(max-width:1120px){
+  html,body{
+    overflow:auto;
+  }
+
+  .appShell{
+    min-height:100dvh;
+    height:auto;
+    padding-top:206px;
+  }
+
+  .courtStage{
+    height:calc(100dvh - 206px);
+    min-height:520px!important;
+  }
+
+  .courtWrap,
+  .courtWrap svg{
+    max-height:calc(100dvh - 230px);
+  }
+
+  body.topControlsCollapsed .courtStage{
+    height:calc(100dvh - 68px);
+    min-height:520px!important;
+  }
+
+  body.topControlsCollapsed .courtWrap,
+  body.topControlsCollapsed .courtWrap svg{
+    max-height:calc(100dvh - 92px);
+  }
+
+  .playPanel{
+    display:none!important;
+  }
+}
+
+@media(max-width:780px){
+  .appShell{
+    padding-top:104px;
+  }
+
+  .courtStage{
+    min-height:480px!important;
+  }
+
+  .floatingPanel{
+    left:10px!important;
+    right:10px!important;
+    top:10px!important;
+    width:auto!important;
+    max-height:calc(100dvh - 170px);
+  }
+
+  .movementPanel{
+    bottom:92px!important;
+    top:auto!important;
+  }
+
+  body:not(.topControlsCollapsed) .appShell{
+    padding-top:228px;
+  }
+
+  body.topControlsCollapsed .appHeader{
+    grid-template-columns:1fr;
+  }
+
+  body.topControlsCollapsed .brandBlock{
+    justify-content:flex-start;
+  }
+
+  body.topControlsCollapsed .topControlsTab{
+    top:calc(22px + env(safe-area-inset-top));
+    right:18px;
+    left:auto;
+    transform:none;
+  }
+
+  body.leftPanelCollapsed .leftPanelTab,
+  body.rightPanelCollapsed .rightPanelTab,
+  body.bottomToolsCollapsed .bottomToolsTab{
+    display:block!important;
+  }
+
+  .floatingPanel{
+    max-height:34vh!important;
+  }
+
+  .playPanel,
+  .stepsPanel,
+  .libraryPanel,
+  .sharePanel,
+  .editPanel,
+  .movementPanel,
+  .builderStepsPanel,
+  .playerLibraryPanel{
+    top:calc(88px + env(safe-area-inset-top))!important;
+  }
+
+  .viewToolbar,
+  .drawToolbar,
+  .editToolbar{
+    display:none!important;
+  }
+
+  body[data-coach-mode="view"]:not(.bottomToolsCollapsed) .viewToolbar,
+  body[data-coach-mode="draw"]:not(.bottomToolsCollapsed) .drawToolbar,
+  body[data-coach-mode="edit"]:not(.bottomToolsCollapsed) .editToolbar{
+    display:grid!important;
+  }
+
+  .floatingToolbar{
+    position:fixed!important;
+    left:10px!important;
+    right:10px!important;
+    bottom:calc(12px + env(safe-area-inset-bottom))!important;
+    transform:none!important;
+    width:auto!important;
+    max-width:none!important;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:8px;
+    overflow:visible;
+  }
+
+  .floatingToolbar button,
+  .floatingToolbar select{
+    min-width:0;
+    min-height:44px;
+    padding:8px 9px;
+    font-size:14px;
+  }
+
+  .speedControl,
+  .penChooser{
+    min-width:0;
+    width:100%;
+    gap:6px;
+    font-size:12px;
+  }
+
+  .speedControl select,
+  .penChooser select{
+    min-width:0;
+    width:100%;
+  }
+}
+
+/* Player share links on phones: keep the court visible and move steps below it. */
+@media(max-width:780px){
+  .playerView{
+    overflow:auto;
+  }
+
+  .playerView .appShell{
+    height:auto;
+    min-height:100dvh;
+    overflow:visible;
+    padding-bottom:calc(150px + env(safe-area-inset-bottom));
+  }
+
+  .playerView .courtStage{
+    display:block;
+    height:auto!important;
+    min-height:0!important;
+    overflow:visible!important;
+    padding:0 10px;
+  }
+
+  .playerView .courtWrap{
+    width:100%;
+    max-height:none;
+    margin-top:12px;
+  }
+
+  .playerView .courtWrap svg{
+    max-height:none;
+  }
+
+  .playerView .stepsPanel{
+    display:block!important;
+    position:relative!important;
+    left:auto!important;
+    right:auto!important;
+    top:auto!important;
+    bottom:auto!important;
+    width:100%!important;
+    max-height:none!important;
+    margin:10px 0 0;
+    padding:10px;
+    transform:none!important;
+  }
+
+  .playerView .stepsPanel .panelTitle{
+    margin-bottom:6px;
+    font-size:12px;
+  }
+
+  .playerView #stepList{
+    display:block;
+    margin:0;
+  }
+
+  .playerView #stepList .stepItem{
+    display:none;
+  }
+
+  .playerView #stepList .stepItem.active{
+    display:grid;
+    min-height:54px;
+    padding:10px 12px;
+    border-radius:14px;
+  }
+
+  .playerView .playerLibraryPanel{
+    display:none!important;
+  }
+
+  .playerView .floatingToolbar.viewToolbar{
+    position:fixed!important;
+    left:10px!important;
+    right:10px!important;
+    bottom:calc(10px + env(safe-area-inset-bottom))!important;
+    transform:none!important;
+    width:auto!important;
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:8px;
+    padding:10px;
+    border-radius:18px;
+  }
+
+  .playerView .viewToolbar .speedControl{
+    grid-column:1 / -1;
+    min-width:0;
+    width:100%;
+  }
+
+  .playerView .viewToolbar .speedControl select{
+    width:100%;
+  }
+}
+
+body.leftPanelCollapsed .stepsPanel,
+body.leftPanelCollapsed .builderStepsPanel,
+body.leftPanelCollapsed .playerLibraryPanel,
+body.leftPanelCollapsed.playerView .stepsPanel{
+  display:none!important;
+}
+
+body.rightPanelCollapsed .playPanel,
+body.rightPanelCollapsed .libraryPanel,
+body.rightPanelCollapsed .sharePanel,
+body.rightPanelCollapsed .editPanel,
+body.rightPanelCollapsed .movementPanel{
+  display:none!important;
+}

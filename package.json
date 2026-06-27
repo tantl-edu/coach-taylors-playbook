@@ -1,0 +1,10 @@
+{
+  "name": "coach-taylors-playbook",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node scripts/validate-static-app.mjs",
+    "check:js": "node --check app.js && node --check app-data.js && node --check app-config.js && node --check pwa.js && node --check sw.js"
+  }
+}

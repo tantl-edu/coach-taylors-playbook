@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Playbook">
+  <meta name="theme-color" content="#061c31">
+  <meta name="description" content="Coach Taylor's basketball playbook for viewing, building, animating, and sharing plays.">
+  <title>Coach Taylor's Playbook | Latin School of Chicago</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-coach-mode="view">
+<script>
+  if (window.matchMedia && window.matchMedia("(pointer: coarse) and (max-width: 1120px)").matches) {
+    document.body.classList.add("topControlsCollapsed","leftPanelCollapsed","rightPanelCollapsed","bottomToolsCollapsed","mobileCompactBoot");
+  }
+</script>
+<div class="app appShell">
+  <header class="appHeader">
+    <div class="brandBlock">
+      <img src="latin-logo.png" alt="Latin School of Chicago logo" class="brandLogo">
+      <div>
+        <h1>Coach Taylor's Playbook</h1>
+        <p>Latin School of Chicago Basketball</p>
+      </div>
+    </div>
+
+    <nav class="modeTabs coachModeTabs" aria-label="Coach modes">
+      <button type="button" id="viewerMode" class="active" data-mode="view">View</button>
+      <button type="button" id="builderMode" data-mode="edit">Edit</button>
+      <button type="button" id="drawModeTab" data-mode="draw">Draw</button>
+      <button type="button" id="libraryModeTab" data-mode="library">Library</button>
+      <button type="button" id="shareModeTab" data-mode="share">Share</button>
+    </nav>
+
+    <div class="headerActions">
+      <button type="button" id="saveBuilderPlayTop">Save</button>
+      <button type="button" id="sharePlay">Share</button>
+    </div>
+  </header>
+  <button type="button" id="topControlsTab" class="collapseTab topControlsTab">Controls</button>
+
+  <main id="viewer" class="screen viewerScreen">
+    <section class="courtStage">
+      <div class="courtWrap">
+        <svg id="court" viewBox="0 0 1200 720" aria-label="Full basketball court"></svg>
+      </div>
+
+      <aside class="floatingPanel playPanel">
+        <div class="panelKicker">Now Viewing</div>
+        <h2 id="playTitle"></h2>
+        <p id="purpose"></p>
+        <div id="stepBadge"></div>
+        <p id="note"></p>
+        <div id="coachNotes" class="coachNotes"></div>
+      </aside>
+
+      <aside class="floatingPanel stepsPanel">
+        <div class="panelTitle">Steps</div>
+        <div id="stepList" class="stepList"></div>
+        <button type="button" id="blankCourtQuick">Blank Court</button>
+      </aside>
+
+      <aside class="floatingPanel libraryPanel">
+        <div class="panelTitle">Library</div>
+        <label>Search
+          <input id="playSearch" placeholder="Search plays">
+        </label>
+        <label>Play
+          <select id="playSelect"></select>
+        </label>
+        <label>Filter
+          <select id="playFilter">
+            <option value="all" selected>All Plays</option>
+            <option value="Offense">All Offense</option>
+            <option value="Defense">All Defense</option>
+            <option value="Half Court">Half Court</option>
+            <option value="BLOB">BLOB</option>
+            <option value="SLOB">SLOB</option>
+            <option value="Fast Break">Fast Break</option>
+            <option value="Press Break">Press Break</option>
+            <option value="Zone Defense">Zone Defense</option>
+            <option value="Man Defense">Man Defense</option>
+            <option value="Blank">Blank</option>
+          </select>
+        </label>
+        <div class="libraryRows">
+          <button type="button" id="favoritePlay">Favorite</button>
+          <button type="button" id="recentPlays">Recent Plays</button>
+        </div>
+        <div id="libraryList" class="compactList"></div>
+      </aside>
+
+      <aside class="floatingPanel sharePanel">
+        <div class="panelTitle">Share</div>
+        <label>Public app URL
+          <input id="publicAppUrl" placeholder="https://your-site.github.io/playbook/">
+        </label>
+        <button type="button" id="savePublicAppUrl">Use This URL</button>
+        <button type="button" id="shareLink">Share Link</button>
+        <button type="button" id="sharePlayerLink">Player View Link</button>
+        <button type="button" id="sharePlaylistLink">Practice Playlist</button>
+        <button type="button" id="shareTeamLibraryLink">Team Library</button>
+        <button type="button" id="qrCode">QR Code</button>
+        <button type="button" id="playerPreview">Player Preview</button>
+        <div id="sharePreview" class="sharePreview">Share links do not require accounts, email addresses, or sign in.</div>
+      </aside>
+
+      <aside class="floatingPanel playerLibraryPanel">
+        <div class="panelTitle">Shared Plays</div>
+        <div id="playerShareTitle" class="playerShareTitle">Player View</div>
+        <div id="playerPlaylistList" class="compactList"></div>
+      </aside>
+
+      <button type="button" id="leftPanelTab" class="collapseTab sidePanelTab leftPanelTab">Hide Steps</button>
+      <button type="button" id="rightPanelTab" class="collapseTab sidePanelTab rightPanelTab">Hide Info</button>
+
+      <div class="floatingToolbar viewToolbar">
+        <button id="prevStep" type="button">Back</button>
+        <button id="playPause" type="button" class="primaryAction">Play</button>
+        <button id="nextStep" type="button">Next</button>
+        <label class="speedControl">Speed
+          <select id="speedSelect">
+            <option value="0.65">Fast</option>
+            <option value="1" selected>Normal</option>
+            <option value="1.35">Slow</option>
+          </select>
+        </label>
+        <button type="button" id="drawModeShortcut">Draw</button>
+        <button type="button" id="shareModeShortcut">Share</button>
+      </div>
+
+      <div class="floatingToolbar drawToolbar">
+        <button type="button" id="drawToggle">Pen</button>
+        <label class="penChooser">Color
+          <select id="penSelect">
+            <option value="#111111" selected>Black</option>
+            <option value="#d32f2f">Red</option>
+            <option value="#004b93">Blue</option>
+            <option value="#2e7d32">Green</option>
+          </select>
+        </label>
+        <button type="button" id="eraserInk">Eraser</button>
+        <button type="button" id="clearInk">Clear</button>
+        <button type="button" id="doneDrawing">Done</button>
+      </div>
+
+      <div class="hiddenControls" hidden aria-hidden="true">
+        <button id="animateStep" type="button">Animate Step</button>
+        <button id="animateAll" type="button">Animate All</button>
+        <button id="pause" type="button">Pause</button>
+        <button id="reset" type="button">Reset</button>
+        <button type="button" id="blackPen" class="pen black activePen legacyPen" data-color="#111111">Black</button>
+        <button type="button" id="redPen" class="pen red legacyPen" data-color="#d32f2f">Red</button>
+        <button type="button" id="bluePen" class="pen blue legacyPen" data-color="#004b93">Blue</button>
+        <button type="button" id="greenPen" class="pen green legacyPen" data-color="#2e7d32">Green</button>
+        <button type="button" id="undoInk">Undo</button>
+        <label>Attack Basket
+          <select id="sideSelect">
+            <option value="left" selected>Left Basket</option>
+            <option value="right">Right Basket</option>
+          </select>
+        </label>
+      </div>
+    </section>
+  </main>
+
+  <main id="builder" class="screen builderScreen hidden">
+    <section class="courtStage">
+      <div class="courtWrap">
+        <svg id="builderCourt" viewBox="0 0 1200 720" aria-label="Builder full court"></svg>
+      </div>
+
+      <aside class="floatingPanel editPanel">
+        <h2>Coach Builder</h2>
+        <label>Play name
+          <input id="builderName" value="My Full Court Play">
+        </label>
+        <label>Purpose
+          <input id="builderPurpose" value="Simple spacing and movement action.">
+        </label>
+        <label>Step note
+          <input id="builderNote" value="Set player locations for this step.">
+        </label>
+        <label>Saved Custom Plays
+          <select id="editPlaySelect">
+            <option value="">Select a saved play</option>
+          </select>
+        </label>
+        <p id="editingStatus" class="small editStatus">Not editing a saved play.</p>
+      </aside>
+
+      <aside class="floatingPanel builderStepsPanel">
+        <div class="panelTitle">Build Steps</div>
+        <div id="builderStepList" class="stepList"></div>
+      </aside>
+
+      <aside class="floatingPanel movementPanel">
+        <div class="panelTitle">Action Details</div>
+        <label>Ball with Player
+          <select id="builderBall">
+            <option value="">No ball</option>
+            <option value="1" selected>Player 1</option>
+            <option value="2">Player 2</option>
+            <option value="3">Player 3</option>
+            <option value="4">Player 4</option>
+            <option value="5">Player 5</option>
+          </select>
+        </label>
+        <div class="movementGrid">
+          <div class="movementTitle">Movement into this step</div>
+          <label>P1<select id="moveType1"><option value="cut" selected>Cut</option><option value="dribble">Dribble</option><option value="pass">Pass</option><option value="handoff">Handoff</option><option value="screen">Screen</option><option value="flareScreen">Flare</option><option value="slip">Slip</option><option value="shot">Shot</option><option value="none">None</option></select></label>
+          <label>P2<select id="moveType2"><option value="cut" selected>Cut</option><option value="dribble">Dribble</option><option value="pass">Pass</option><option value="handoff">Handoff</option><option value="screen">Screen</option><option value="flareScreen">Flare</option><option value="slip">Slip</option><option value="shot">Shot</option><option value="none">None</option></select></label>
+          <label>P3<select id="moveType3"><option value="cut" selected>Cut</option><option value="dribble">Dribble</option><option value="pass">Pass</option><option value="handoff">Handoff</option><option value="screen">Screen</option><option value="flareScreen">Flare</option><option value="slip">Slip</option><option value="shot">Shot</option><option value="none">None</option></select></label>
+          <label>P4<select id="moveType4"><option value="cut" selected>Cut</option><option value="dribble">Dribble</option><option value="pass">Pass</option><option value="handoff">Handoff</option><option value="screen">Screen</option><option value="flareScreen">Flare</option><option value="slip">Slip</option><option value="shot">Shot</option><option value="none">None</option></select></label>
+          <label>P5<select id="moveType5"><option value="cut" selected>Cut</option><option value="dribble">Dribble</option><option value="pass">Pass</option><option value="handoff">Handoff</option><option value="screen">Screen</option><option value="flareScreen">Flare</option><option value="slip">Slip</option><option value="shot">Shot</option><option value="none">None</option></select></label>
+        </div>
+      </aside>
+
+      <div id="builderHelp" class="builderHelp hidden">
+        <strong>How building steps works</strong>
+        <p>Move players, choose action details, and save the step.</p>
+        <label class="checkRow"><input type="checkbox" id="dontShowBuilderHelp">Don't show this again</label>
+        <button type="button" id="closeBuilderHelp" class="secondary">Got it</button>
+      </div>
+
+      <div class="floatingToolbar editToolbar">
+        <button type="button" class="active">Move</button>
+        <button type="button" id="addBuilderStep">Add Step</button>
+        <button type="button" id="markPass">Pass</button>
+        <button type="button" id="markScreen">Screen</button>
+        <button type="button" id="markShot">Shot</button>
+        <button type="button" id="deleteBuilderStep">Undo</button>
+        <button type="button" id="saveBuilderPlay">Save</button>
+      </div>
+
+      <div class="hiddenControls" hidden aria-hidden="true">
+        <button type="button" id="addBuilderStepRail">Add Step</button>
+        <button type="button" id="updateBuilderStep">Update Selected Step</button>
+        <button type="button" id="saveAsNewPlay">Save As New Play</button>
+        <button type="button" id="clearSaved" class="danger">Clear All Saved Plays</button>
+        <button type="button" id="loadSavedPlay">Load for Editing</button>
+        <button type="button" id="newBuilderPlay">New Play</button>
+        <button type="button" id="deleteSavedPlay" class="danger">Delete Saved Play</button>
+        <button type="button" id="previewBuilderStep">Preview Step</button>
+        <button type="button" id="previewBuilderPlay">Preview Play</button>
+        <button type="button" id="stopBuilderPreview">Reset Preview</button>
+        <button type="button" id="builderResetPositions">Reset Spots</button>
+        <button type="button" id="builderBlankCourt">Blank Template</button>
+        <button type="button" id="toggleStepsPanel">Steps</button>
+        <button type="button" id="toggleInfoPanel">Info</button>
+        <button type="button" id="toggleBuilderStepsPanel">Build Steps</button>
+        <button type="button" id="toggleBuilderToolsPanel">Tools</button>
+      </div>
+    </section>
+  </main>
+  <button type="button" id="bottomToolsTab" class="collapseTab bottomToolsTab">Tools</button>
+</div>
+
+<!-- Temporary build marker. Remove this element and .buildWatermark before public release. -->
+<div class="buildWatermark" aria-label="Build version">Build PWA v9 · 2026-06-26</div>
+
+<script type="module" src="app.js"></script>
+<script type="module" src="pwa.js"></script>
+</body>
+</html>
