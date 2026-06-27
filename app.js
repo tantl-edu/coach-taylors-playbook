@@ -740,7 +740,7 @@ function getYouTubeEmbedUrl(query){
 function updateVideoButtons(){
   const play=plays[currentPlay];
   const hasVideo=Boolean(getPlayVideoQuery(play));
-  document.querySelectorAll("#courtVideoButton").forEach(btn=>{
+  document.querySelectorAll("#libraryVideoButton").forEach(btn=>{
     btn.classList.toggle("hidden",!hasVideo);
   });
 }
@@ -1968,6 +1968,22 @@ function populateLibraryList(mode="visible"){
       openPlayInView(i,{remember:true});
     });
     row.appendChild(btn);
+    if(getPlayVideoQuery(plays[i])){
+      const videoBtn=document.createElement("button");
+      videoBtn.type="button";
+      videoBtn.className="videoButton";
+      videoBtn.dataset.videoButton="true";
+      videoBtn.textContent="See on the court!";
+      videoBtn.addEventListener("click",event=>{
+        event.preventDefault();
+        event.stopPropagation();
+        currentPlay=i;
+        currentStep=0;
+        if(playSelect) playSelect.value=i;
+        openPlayVideo(i);
+      });
+      row.appendChild(videoBtn);
+    }
     list.appendChild(row);
   });
   if(!list.children.length){
@@ -1996,9 +2012,9 @@ if(recentPlays){
   recentPlays.addEventListener("click",()=>populateLibraryList("recent"));
 }
 
-const courtVideoButton=document.getElementById("courtVideoButton");
-if(courtVideoButton){
-  courtVideoButton.addEventListener("click",()=>openPlayVideo(currentPlay));
+const libraryVideoButton=document.getElementById("libraryVideoButton");
+if(libraryVideoButton){
+  libraryVideoButton.addEventListener("click",()=>openPlayVideo(currentPlay));
 }
 
 const closeVideo=document.getElementById("closeVideo");
