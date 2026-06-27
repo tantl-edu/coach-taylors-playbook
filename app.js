@@ -974,9 +974,12 @@ function setupInkHandlers(){
   };
 }
 
-document.getElementById("viewerMode").onclick=()=>{
-  setCoachMode(hasSelectedPlayForView || playerView ? "view" : "library");
-};
+const viewerModeButton=document.getElementById("viewerMode");
+if(viewerModeButton){
+  viewerModeButton.onclick=()=>{
+    setCoachMode(hasSelectedPlayForView || playerView ? "view" : "library");
+  };
+}
 document.getElementById("builderMode").onclick=()=>setCoachMode("edit");
 function toggleMode(mode){
   setCoachMode(mode === "builder" ? "edit" : "view");
@@ -1806,7 +1809,6 @@ function setupCollapsibleControls(){
     container.classList.add("hasHideButton");
   }
 
-  addEmbeddedHideButton(headerActions || header,"Hide Controls",()=>setTopControlsCollapsed(true));
   toolbars.forEach(toolbar=>addEmbeddedHideButton(toolbar,"Hide Tools",()=>setBottomToolsCollapsed(true)));
   leftPanels.forEach(panel=>addEmbeddedHideButton(panel,"Hide",()=>setLeftPanelCollapsed(true)));
   rightPanels.forEach(panel=>addEmbeddedHideButton(panel,"Hide",()=>setRightPanelCollapsed(true)));

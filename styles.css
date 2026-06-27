@@ -119,6 +119,13 @@ header p{margin:4px 0 0;color:var(--latin-orange);font-weight:900;letter-spacing
   border-color:transparent;
 }
 .headerActions{display:flex;justify-content:flex-end;gap:9px}
+body:not([data-coach-mode="edit"]) .headerActions{
+  display:none;
+}
+
+body[data-coach-mode="edit"] #sharePlay{
+  display:none;
+}
 
 .screen{min-height:0}
 .screen{
@@ -633,7 +640,7 @@ body[data-coach-mode="edit"] .editToolbar{display:flex!important}
   }
   .modeTabs{
     display:grid;
-    grid-template-columns:repeat(5,minmax(0,1fr));
+    grid-template-columns:repeat(4,minmax(0,1fr));
     width:100%;
   }
   .modeTabs button{
@@ -989,7 +996,11 @@ body.rightPanelCollapsed .movementPanel{
   }
 
   body:not(.topControlsCollapsed) .appShell{
-    padding-top:228px;
+    padding-top:178px;
+  }
+
+  body[data-coach-mode="edit"]:not(.topControlsCollapsed) .appShell{
+    padding-top:220px;
   }
 
   body.topControlsCollapsed .appHeader{
