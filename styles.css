@@ -1013,13 +1013,26 @@ body.rightPanelCollapsed .movementPanel{
     display:block!important;
   }
 
+  body:not(.leftPanelCollapsed) .leftPanelTab,
+  body:not(.rightPanelCollapsed) .rightPanelTab{
+    display:none!important;
+  }
+
   body[data-coach-mode="draw"] .leftPanelTab,
   body[data-coach-mode="draw"] .rightPanelTab{
     display:none!important;
   }
 
   .floatingPanel{
-    max-height:34vh!important;
+    max-height:calc(100dvh - 300px)!important;
+  }
+
+  .floatingPanel.hasHideButton{
+    padding-top:12px;
+  }
+
+  .floatingPanel .embeddedHideButton{
+    display:none!important;
   }
 
   .playPanel,
