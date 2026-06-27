@@ -1016,6 +1016,7 @@ function setCoachMode(mode){
 function applyPlayerViewMode(){
   if(!playerView) return;
   document.body.classList.add("playerView");
+  document.body.classList.remove("leftPanelCollapsed","rightPanelCollapsed","bottomToolsCollapsed");
   document.body.dataset.coachMode = sharedViewKind==="single" ? "view" : "library";
   document.getElementById("builder").classList.add("hidden");
   document.getElementById("viewer").classList.remove("hidden");

@@ -1,4 +1,4 @@
-const CACHE_NAME = "coach-taylor-playbook-v10";
+const CACHE_NAME = "coach-taylor-playbook-v11";
 const CORE_ASSETS = [
   "./",
   "./index.html",
