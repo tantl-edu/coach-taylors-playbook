@@ -84,8 +84,8 @@ label{
   width:min(calc(100vw - 24px),1696px);
   transform:translateX(-50%);
   display:grid;
-  grid-template-columns:1fr;
-  justify-items:center;
+  grid-template-columns:minmax(260px,1fr) auto minmax(160px,1fr);
+  justify-items:stretch;
   align-items:center;
   gap:14px;
   background:rgba(3,16,29,.56);
@@ -111,6 +111,8 @@ header p{margin:4px 0 0;color:var(--latin-orange);font-weight:900;letter-spacing
   border:1px solid rgba(255,255,255,.16);
   border-radius:16px;
   background:rgba(255,255,255,.10);
+  grid-column:2;
+  grid-row:1;
 }
 .modeTabs button{
   min-width:130px;
@@ -121,6 +123,18 @@ header p{margin:4px 0 0;color:var(--latin-orange);font-weight:900;letter-spacing
   border-color:transparent;
 }
 .headerActions{display:none!important}
+
+@media(min-width:1121px){
+  .brandBlock{
+    grid-column:1;
+    grid-row:1;
+    justify-self:end;
+  }
+
+  .modeTabs{
+    justify-self:center;
+  }
+}
 
 .screen{min-height:0}
 .screen{
@@ -613,6 +627,7 @@ body[data-coach-mode="edit"] .editToolbar{display:flex!important}
 
 @media(max-width:1120px){
   .appHeader{grid-template-columns:1fr;justify-items:stretch}
+  .brandBlock,.modeTabs{grid-column:auto;grid-row:auto}
   .modeTabs,.headerActions{justify-content:center;flex-wrap:wrap}
   .modeTabs button{flex:1;min-width:86px}
   .courtStage{min-height:calc(100vh - 210px)}
@@ -1028,7 +1043,7 @@ body.rightPanelCollapsed .movementPanel{
   }
 
   .floatingPanel{
-    max-height:calc(100dvh - 230px)!important;
+    max-height:calc(100dvh - 175px - env(safe-area-inset-bottom))!important;
   }
 
   .libraryPanel,
