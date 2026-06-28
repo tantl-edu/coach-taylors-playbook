@@ -56,6 +56,7 @@
         <div class="panelKicker">Now Viewing</div>
         <h2 id="playTitle"></h2>
         <p id="purpose"></p>
+        <button type="button" id="seeOnCourt" class="videoButton hidden">See on the court!</button>
         <div id="stepBadge"></div>
         <p id="note"></p>
         <div id="coachNotes" class="coachNotes"></div>
@@ -264,8 +265,15 @@
   <button type="button" id="bottomToolsTab" class="collapseTab bottomToolsTab">Tools</button>
 </div>
 
+<div id="videoOverlay" class="videoOverlay hidden" role="dialog" aria-modal="true" aria-label="Play video">
+  <div class="videoDialog">
+    <button type="button" id="closeVideoOverlay" class="videoClose">Close</button>
+    <iframe id="videoFrame" title="Play demonstration video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  </div>
+</div>
+
 <!-- Temporary build marker. Remove this element and .buildWatermark before public release. -->
-<div class="buildWatermark" aria-label="Build version">Build PWA v22 · 2026-06-27</div>
+<div class="buildWatermark" aria-label="Build version">Build PWA v23 · 2026-06-28</div>
 
 <script type="module" src="app.js"></script>
 <script type="module" src="pwa.js"></script>

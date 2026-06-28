@@ -500,7 +500,48 @@ body[data-coach-mode="edit"] .editToolbar{display:flex!important}
   min-height:44px;
   text-align:left;
   background:rgba(255,255,255,.10);
-  box-shadow:none;
+  transition:background .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease;
+}
+.compactList button:hover,
+.compactList button:focus-visible{
+  border-color:rgba(245,130,32,.70);
+  box-shadow:0 0 0 1px rgba(245,130,32,.34),0 0 18px rgba(245,130,32,.26);
+}
+.compactList button.selectedPlay{
+  background:linear-gradient(180deg,rgba(245,130,32,.96),#ef6f00);
+  border-color:rgba(255,255,255,.45);
+  box-shadow:0 0 0 1px rgba(255,255,255,.24),0 0 26px rgba(245,130,32,.52);
+}
+.videoButton{
+  width:100%;
+  margin:10px 0;
+  background:linear-gradient(180deg,var(--latin-orange),#ef6f00);
+}
+.videoOverlay{
+  position:fixed;
+  inset:0;
+  z-index:500;
+  display:grid;
+  place-items:center;
+  padding:20px;
+  background:rgba(2,12,22,.82);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+.videoDialog{
+  width:min(920px,96vw);
+  display:grid;
+  gap:10px;
+}
+.videoDialog iframe{
+  width:100%;
+  aspect-ratio:16/9;
+  border:0;
+  border-radius:16px;
+  background:#000;
+}
+.videoClose{
+  justify-self:end;
 }
 .sharePreview{
   min-height:150px;

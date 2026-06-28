@@ -691,6 +691,7 @@ function render(){
 
   document.getElementById("playTitle").textContent=play.name;
   document.getElementById("purpose").textContent=play.purpose;
+  updateVideoButton(play);
   document.getElementById("stepBadge").textContent=`${play.category || "Play"} · Step ${currentStep+1} of ${play.steps.length} · Attacking ${currentSide === "left" ? "Left" : "Right"} Basket`;
   document.getElementById("note").textContent=rawStep.note;
   const coachNotes=document.getElementById("coachNotes");
@@ -852,6 +853,7 @@ function openPlayInView(index,{remember=false}={}){
   if(playSelect) playSelect.value=currentPlay;
   if(remember) rememberRecentPlay(currentPlay);
   setCoachMode("view");
+  populateLibraryList();
 }
 
 playSelect.onchange=e=>openPlayInView(e.target.value,{remember:true});
@@ -2022,6 +2024,7 @@ function populateLibraryList(mode="visible"){
     const btn=document.createElement("button");
     btn.type="button";
     btn.textContent=`${plays[i].name}${plays[i].category ? " · " + plays[i].category : ""}`;
+    btn.classList.toggle("selectedPlay",i===currentPlay);
     btn.addEventListener("click",()=>{
       openPlayInView(i,{remember:true});
     });
@@ -2035,6 +2038,50 @@ function populateLibraryList(mode="visible"){
   }
   populatePlayerPlaylist();
 }
+
+function getYouTubeEmbedUrl(url){
+  try{
+    const parsed=new URL(url);
+    const id=parsed.hostname.includes("youtu.be")
+      ? parsed.pathname.slice(1)
+      : parsed.searchParams.get("v");
+    return id ? `https://www.youtube.com/embed/${encodeURIComponent(id)}` : "";
+  }catch(e){
+    return "";
+  }
+}
+
+function updateVideoButton(play=plays[currentPlay]){
+  const btn=document.getElementById("seeOnCourt");
+  if(!btn) return;
+  const hasVideo=Boolean(play && play.videoUrl);
+  btn.classList.toggle("hidden",!hasVideo);
+  btn.disabled=!hasVideo;
+}
+
+function openPlayVideo(){
+  const play=plays[currentPlay];
+  const embedUrl=getYouTubeEmbedUrl(play && play.videoUrl);
+  if(!embedUrl) return;
+  const overlay=document.getElementById("videoOverlay");
+  const frame=document.getElementById("videoFrame");
+  if(!overlay || !frame) return;
+  frame.src=embedUrl;
+  overlay.classList.remove("hidden");
+}
+
+function closePlayVideo(){
+  const overlay=document.getElementById("videoOverlay");
+  const frame=document.getElementById("videoFrame");
+  if(frame) frame.src="";
+  if(overlay) overlay.classList.add("hidden");
+}
+
+const seeOnCourt=document.getElementById("seeOnCourt");
+if(seeOnCourt) seeOnCourt.addEventListener("click",openPlayVideo);
+
+const closeVideoOverlay=document.getElementById("closeVideoOverlay");
+if(closeVideoOverlay) closeVideoOverlay.addEventListener("click",closePlayVideo);
 
 const favoritePlay=document.getElementById("favoritePlay");
 if(favoritePlay){

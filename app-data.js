@@ -45,6 +45,7 @@ export const samplePlays = [
       "5": "5"
     },
     "coachNotes": "Cut hard after the pass. Fill the open spot. The shot comes from the best catch-and-shoot or layup read.",
+    "videoUrl": "https://www.youtube.com/watch?v=inc4zoIjzEI",
     "annotations": [],
     "purpose": "Teach spacing, pass-and-cut habits, and filling open spots.",
     "steps": [
@@ -345,6 +346,7 @@ export const samplePlays = [
       "5": "5"
     },
     "coachNotes": "Passer must cut immediately. Receiver looks at the cutter first, then keeps the ball moving if covered.",
+    "videoUrl": "https://www.youtube.com/watch?v=O_Z4gkyPNG0",
     "annotations": [],
     "purpose": "Simple action for passing, cutting, and timing.",
     "steps": [
@@ -4050,4 +4052,3 @@ export const samplePlays = [
     ]
   }
 ];
-
