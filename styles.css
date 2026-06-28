@@ -1057,7 +1057,8 @@ body.rightPanelCollapsed .movementPanel{
   }
 
   body[data-coach-mode="library"] .courtStage,
-  body[data-coach-mode="share"] .courtStage{
+  body[data-coach-mode="share"] .courtStage,
+  body[data-coach-mode="edit"] .courtStage{
     height:calc(100dvh - 178px - env(safe-area-inset-bottom))!important;
     min-height:0!important;
     padding-bottom:0!important;
@@ -1065,7 +1066,8 @@ body.rightPanelCollapsed .movementPanel{
   }
 
   body[data-coach-mode="library"] .courtWrap,
-  body[data-coach-mode="share"] .courtWrap{
+  body[data-coach-mode="share"] .courtWrap,
+  body[data-coach-mode="edit"] .courtWrap{
     display:none!important;
   }
 
@@ -1096,12 +1098,12 @@ body.rightPanelCollapsed .movementPanel{
 
   body[data-coach-mode="edit"] .editPanel{
     top:10px!important;
-    max-height:20vh!important;
+    max-height:30vh!important;
   }
 
   body[data-coach-mode="edit"] .movementPanel{
     bottom:calc(188px + env(safe-area-inset-bottom))!important;
-    max-height:20vh!important;
+    max-height:calc(100dvh - 380px - env(safe-area-inset-bottom))!important;
   }
 
   .viewToolbar,
