@@ -1650,11 +1650,6 @@ if(shareBtn){
   });
 }
 
-const shareLibraryPlay=document.getElementById("shareLibraryPlay");
-if(shareLibraryPlay){
-  shareLibraryPlay.addEventListener("click",openSharePanelForCurrentPlay);
-}
-
 const shareDrawing=document.getElementById("shareDrawing");
 if(shareDrawing){
   shareDrawing.addEventListener("click",openSharePanelForCurrentPlay);
