@@ -1635,16 +1635,29 @@ async function shareOrCopyUrl(url){
     showShareUrl("Share Link",url);
   }
 }
+function openSharePanelForCurrentPlay(){
+  setCoachMode("share");
+  if(!requireShareableUrl()) return;
+  showShareUrl("Player View Link",makeShareUrl("single",[currentPlay]));
+}
 if(shareBtn){
   shareBtn.addEventListener("click",async ()=>{
     if(playerView){
       await shareOrCopyUrl(window.location.href);
       return;
     }
-    setCoachMode("share");
-    if(!requireShareableUrl()) return;
-    showShareUrl("Player View Link",makeShareUrl("single",[currentPlay]));
+    openSharePanelForCurrentPlay();
   });
+}
+
+const shareLibraryPlay=document.getElementById("shareLibraryPlay");
+if(shareLibraryPlay){
+  shareLibraryPlay.addEventListener("click",openSharePanelForCurrentPlay);
+}
+
+const shareDrawing=document.getElementById("shareDrawing");
+if(shareDrawing){
+  shareDrawing.addEventListener("click",openSharePanelForCurrentPlay);
 }
 
 const speedSelect=document.getElementById("speedSelect");

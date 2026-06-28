@@ -84,7 +84,8 @@ label{
   width:min(calc(100vw - 24px),1696px);
   transform:translateX(-50%);
   display:grid;
-  grid-template-columns:minmax(260px,1fr) auto minmax(160px,1fr);
+  grid-template-columns:1fr;
+  justify-items:center;
   align-items:center;
   gap:14px;
   background:rgba(3,16,29,.56);
@@ -104,6 +105,7 @@ header p{margin:4px 0 0;color:var(--latin-orange);font-weight:900;letter-spacing
 .modeTabs{
   display:flex;
   align-items:center;
+  justify-content:center;
   gap:5px;
   padding:5px;
   border:1px solid rgba(255,255,255,.16);
@@ -111,7 +113,7 @@ header p{margin:4px 0 0;color:var(--latin-orange);font-weight:900;letter-spacing
   background:rgba(255,255,255,.10);
 }
 .modeTabs button{
-  min-width:84px;
+  min-width:130px;
   min-height:44px;
   padding:9px 12px;
   background:transparent;
@@ -631,7 +633,7 @@ body[data-coach-mode="edit"] .editToolbar{display:flex!important}
   }
   .modeTabs{
     display:grid;
-    grid-template-columns:repeat(5,minmax(0,1fr));
+    grid-template-columns:repeat(3,minmax(0,1fr));
     width:100%;
   }
   .modeTabs button{
@@ -987,7 +989,7 @@ body.rightPanelCollapsed .movementPanel{
   }
 
   body:not(.topControlsCollapsed) .appShell{
-    padding-top:228px;
+    padding-top:178px;
   }
 
   body.topControlsCollapsed .appHeader{
@@ -1026,7 +1028,17 @@ body.rightPanelCollapsed .movementPanel{
   }
 
   .floatingPanel{
-    max-height:calc(100dvh - 270px)!important;
+    max-height:calc(100dvh - 230px)!important;
+  }
+
+  .libraryPanel,
+  .sharePanel,
+  .stepsPanel,
+  .editPanel,
+  .movementPanel,
+  .playerLibraryPanel{
+    bottom:calc(12px + env(safe-area-inset-bottom))!important;
+    overflow:auto!important;
   }
 
   .floatingPanel.hasHideButton{

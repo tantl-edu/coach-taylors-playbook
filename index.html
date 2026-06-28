@@ -33,10 +33,10 @@
 
     <nav class="modeTabs coachModeTabs" aria-label="Coach modes">
       <button type="button" id="viewerMode" data-mode="view" hidden>View</button>
-      <button type="button" id="builderMode" data-mode="edit">New</button>
+      <button type="button" id="builderMode" data-mode="edit">Create New Play</button>
       <button type="button" id="drawModeTab" class="active" data-mode="draw">Draw</button>
-      <button type="button" id="libraryModeTab" data-mode="library">Library</button>
-      <button type="button" id="shareModeTab" data-mode="share">Share</button>
+      <button type="button" id="libraryModeTab" data-mode="library">Play Library</button>
+      <button type="button" id="shareModeTab" data-mode="share" hidden>Share</button>
     </nav>
 
     <div class="headerActions">
@@ -94,6 +94,7 @@
           <button type="button" id="favoritePlay">Favorite</button>
           <button type="button" id="recentPlays">Recent Plays</button>
         </div>
+        <button type="button" id="shareLibraryPlay" class="contextShareButton">Share Selected Play</button>
         <div id="libraryList" class="compactList"></div>
       </aside>
 
@@ -148,6 +149,7 @@
         </label>
         <button type="button" id="eraserInk">Eraser</button>
         <button type="button" id="clearInk">Clear</button>
+        <button type="button" id="shareDrawing">Share Drawing</button>
         <button type="button" id="doneDrawing">Done</button>
       </div>
 
@@ -264,7 +266,7 @@
 </div>
 
 <!-- Temporary build marker. Remove this element and .buildWatermark before public release. -->
-<div class="buildWatermark" aria-label="Build version">Build PWA v15 · 2026-06-27</div>
+<div class="buildWatermark" aria-label="Build version">Build PWA v16 · 2026-06-27</div>
 
 <script type="module" src="app.js"></script>
 <script type="module" src="pwa.js"></script>
