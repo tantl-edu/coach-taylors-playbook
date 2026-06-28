@@ -1056,6 +1056,26 @@ body.rightPanelCollapsed .movementPanel{
     overflow:auto!important;
   }
 
+  body[data-coach-mode="library"] .courtStage,
+  body[data-coach-mode="share"] .courtStage{
+    height:calc(100dvh - 178px - env(safe-area-inset-bottom))!important;
+    min-height:0!important;
+    padding-bottom:0!important;
+    overflow:visible!important;
+  }
+
+  body[data-coach-mode="library"] .courtWrap,
+  body[data-coach-mode="share"] .courtWrap{
+    display:none!important;
+  }
+
+  body[data-coach-mode="library"] .libraryPanel,
+  body[data-coach-mode="share"] .sharePanel{
+    top:0!important;
+    bottom:0!important;
+    max-height:none!important;
+  }
+
   .floatingPanel.hasHideButton{
     padding-top:12px;
   }
