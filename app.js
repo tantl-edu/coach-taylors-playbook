@@ -1884,8 +1884,8 @@ function setupDesktopRubberBand(){
   let startY=0;
   let frame=null;
   const maxX=22;
-  const maxY=52;
-  const enableWheelRubber=false;
+  const maxY=130;
+  const enableWheelRubber=true;
 
   function clamp(value,limit){
     return Math.max(-limit,Math.min(limit,value));
@@ -1985,7 +1985,7 @@ function setupDesktopRubberBand(){
     document.body.classList.add("rubberDragging");
     document.body.classList.remove("rubberRecovering");
     recovering=false;
-    setTarget(clamp(-event.deltaX*.014,maxX), clamp(-event.deltaY*.04,maxY));
+    setTarget(clamp(-event.deltaX*.014,maxX), clamp(-event.deltaY*.16,maxY));
     window.clearTimeout(setupDesktopRubberBand.wheelTimer);
     setupDesktopRubberBand.wheelTimer=window.setTimeout(recoverRubber,130);
   },{passive:false});
