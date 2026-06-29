@@ -71,7 +71,7 @@ label{
   display:grid;
   grid-template-rows:auto 1fr;
   gap:12px;
-  padding:78px 12px 12px;
+  padding:104px 12px 12px;
   max-width:1720px;
   margin:auto;
 }
@@ -81,7 +81,7 @@ label{
   z-index:120;
   top:12px;
   left:50%;
-  width:min(calc(100vw - 24px),1696px);
+  width:min(calc(100vw - 24px),1500px);
   transform:translateX(-50%);
   display:grid;
   grid-template-columns:minmax(260px,1fr) auto minmax(160px,1fr);
@@ -746,12 +746,14 @@ body[data-coach-mode="edit"] .editToolbar{display:flex!important}
 /* Compact overlay repair: keep tools out of page flow and reveal one panel at a time. */
 html,body{
   height:100%;
-  overflow:hidden;
+  overflow-x:hidden;
+  overflow-y:auto;
 }
 
 .appShell{
-  height:100dvh;
-  overflow:hidden;
+  height:auto;
+  min-height:100dvh;
+  overflow:visible;
 }
 
 .screen,
